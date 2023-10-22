@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class RabbitMQRegisterRequest {
     int ip;
-    int mac;
+    long mac;
     int sv;
 }
