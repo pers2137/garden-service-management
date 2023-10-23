@@ -24,12 +24,13 @@ public class MeasurementsEntity {
     @Column(name = "ID_STATION", nullable = false)
     private Long idStation;
 
-    //private MeasurementType measurementType;
+    @Column(name = "TYPE")
+    private String type;
 
     @Column(name = "VALUE")
     private double value;
 
     @Column(name = "TIMESTAMP")
-    private int timestamp;
+    private Long timestamp;
 
 }

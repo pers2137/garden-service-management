@@ -1,5 +1,6 @@
 package com.praca.inzynierska.gardenservicemanagement.rabbitMq.listeners.data;
 
+import com.praca.inzynierska.gardenservicemanagement.common.BinaryParser;
 import com.praca.inzynierska.gardenservicemanagement.rabbitMq.listeners.data.model.RabbitMQDataRequest;
 import com.praca.inzynierska.gardenservicemanagement.rabbitMq.listeners.data.services.RabbitMQDataProcessor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,10 +17,11 @@ public class RabbitMQDataListener {
         this.registerProcessor = registerProcessor;
     }
 
-//TODO DODANIE DEKLARACJI TEJ KOLEJKI W KONFIGURACJI DO NASLUCHU
+    //TODO ZROBIENIE PORZADKU Z NAZWAMI, ORAZ Z API, TABELKA NA BAZIE
     @RabbitListener(queues = {"${rabbitmq.data.queue}"})
     public void consume(RabbitMQDataRequest request) {
-        //TODO ZAPIS DO BAZY DANYCH :)
-        System.out.println("odebrano :)");
+        log.info(String.format("Received register request: %s", request.toString()));
+        registerProcessor.saveMeasurementData(request);
+        log.info(String.format("Data request from %s was handled.", BinaryParser.getMacAddressFromInt64(request.getMac())));
     }
 }

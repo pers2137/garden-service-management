@@ -1,5 +1,6 @@
 package com.praca.inzynierska.gardenservicemanagement.rabbitMq.listeners.register;
 
+import com.praca.inzynierska.gardenservicemanagement.common.BinaryParser;
 import com.praca.inzynierska.gardenservicemanagement.rabbitMq.listeners.register.model.RabbitMQRegisterRequest;
 import com.praca.inzynierska.gardenservicemanagement.rabbitMq.listeners.register.services.RabbitMQRegisterProcessor;
 import com.praca.inzynierska.gardenservicemanagement.rabbitMq.producers.RabbitMQConfigurationProducer;
@@ -26,13 +27,14 @@ public class RabbitMQRegisterListener {
 
     @RabbitListener(queues = {"${rabbitmq.register.queue}"})
     public void consume(RabbitMQRegisterRequest request) {
-       log.info(String.format("Received register request: %s", request.toString()));
+       log.info("Received register request: {}", request.toString());
 
        //TODO - DO ROZWAZENIA SYTUACJA KIEDY URZADZENIE ISTNIEJE ALE KOLEJKI TAKIEJ NIE MA -> ZROBIC JAKIEGOS CHECKA CZY TAKA KOLEJKA ISTNIEJE
        if(registerProcessor.registerStation(request)) {
            var deviceConfiguration = prepareDeviceConfiguration();
            rabbitMQConfigurationProducer.createNewQueueAndSendJsonMessage(deviceConfiguration, request.getMac());
        }
+       log.info("Register request from {} was handled.", BinaryParser.getMacAddressFromInt64(request.getMac()));
     }
 
     private DeviceConfigurationRequest prepareDeviceConfiguration() {
