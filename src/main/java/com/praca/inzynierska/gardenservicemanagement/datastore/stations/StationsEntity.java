@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "STATIONS")
 
@@ -34,5 +36,8 @@ public class StationsEntity {
 
     @Column(name = "IP_ADDRESS")
     private String ipAddress;
+
+    @Column(name = "REGISTER_DATE")
+    private LocalDateTime registerDate;
 
 }

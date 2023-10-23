@@ -31,3 +31,7 @@ spring:
 rabbitmq:
   register:
     queue: register
+  data:
+    queue: data
+  producer:
+    exchange: config

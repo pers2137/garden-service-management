@@ -7,6 +7,8 @@ import com.praca.inzynierska.gardenservicemanagement.rabbitMq.listeners.register
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Slf4j
 @Component
 public class RabbitMQRegisterProcessorImpl implements RabbitMQRegisterProcessor{
@@ -19,12 +21,12 @@ public class RabbitMQRegisterProcessorImpl implements RabbitMQRegisterProcessor{
 
 
     @Override
-    public void registerStation(RabbitMQRegisterRequest request) {
+    public boolean registerStation(RabbitMQRegisterRequest request) {
         var macAddress = BinaryParser.getMacAddressFromInt64(request.getMac());
 
         if(stationsRepository.existsByMacAddress(macAddress)) {
              log.error(String.format("Station MAC: %s already exist!", macAddress));
-             return;
+             return false;
         }
 
         var newStations = StationsEntity.builder()
@@ -33,8 +35,10 @@ public class RabbitMQRegisterProcessorImpl implements RabbitMQRegisterProcessor{
                                         .ipAddress(BinaryParser.getIpAddressFromInt32(request.getIp()))
                                         .softwareVersion(String.valueOf(request.getSv()))
                                         .measurementPeriod(1)
+                                        .registerDate(LocalDateTime.now())
                                         .build();
-        stationsRepository.save(newStations);
+        var station = stationsRepository.save(newStations);
         log.info(String.format("Station MAC: %s saved successfully!", macAddress));
+        return true;
     }
 }
