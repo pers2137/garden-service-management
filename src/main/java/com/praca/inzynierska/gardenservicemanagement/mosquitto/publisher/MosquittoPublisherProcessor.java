@@ -1,0 +1,9 @@
+package com.praca.inzynierska.gardenservicemanagement.mosquitto.publisher;
+
+import com.praca.inzynierska.gardenservicemanagement.rabbitMq.producers.model.DeviceConfigurationRequest;
+
+public interface MosquittoPublisherProcessor {
+     void sendConfigurationMessageToTopic(String topic, DeviceConfigurationRequest deviceConfigurationRequest);
+
+     void sendMessageToTopic(String topic, String message);
+}

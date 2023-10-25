@@ -1,4 +1,4 @@
-package com.praca.inzynierska.gardenservicemanagement.rabbitMq.listeners.data.model;
+package com.praca.inzynierska.gardenservicemanagement.mosquitto.listener.data.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -12,14 +12,13 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Dth11 implements Serializable {
+public class WilgotnoscGleby implements Serializable {
 
     @JsonProperty("input_line")
     int inputLine;
 
-    @JsonProperty("value_temp")
-    double valueTemp;
-
-    @JsonProperty("value_humidity")
-    double valueHumidity;
+    @JsonProperty("value")
+    double value;
 }
+
+

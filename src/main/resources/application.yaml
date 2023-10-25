@@ -27,11 +27,12 @@ spring:
     show-sql: false #true
 
 
-
-rabbitmq:
-  register:
-    queue: register
-  data:
-    queue: data
-  producer:
-    exchange: config
+mosquitto:
+  topic:
+    data: data
+    register: register
+  password: admin
+  username: admin
+  broker:
+    host: localhost
+    port: 1883

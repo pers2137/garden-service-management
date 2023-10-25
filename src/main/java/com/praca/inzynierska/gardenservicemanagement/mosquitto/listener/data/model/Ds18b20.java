@@ -1,5 +1,4 @@
-package com.praca.inzynierska.gardenservicemanagement.rabbitMq.listeners.data.model;
-
+package com.praca.inzynierska.gardenservicemanagement.mosquitto.listener.data.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -13,10 +12,10 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Sun implements Serializable {
+public class Ds18b20 implements Serializable {
 
-    @JsonProperty("input_line")
-    int inputLine;
+    @JsonProperty("rom_code")
+    int romCode;
 
     @JsonProperty("value")
     double value;

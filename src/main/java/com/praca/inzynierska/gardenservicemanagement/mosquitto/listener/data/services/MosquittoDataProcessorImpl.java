@@ -1,11 +1,11 @@
-package com.praca.inzynierska.gardenservicemanagement.rabbitMq.listeners.data.services;
+package com.praca.inzynierska.gardenservicemanagement.mosquitto.listener.data.services;
 
 import com.praca.inzynierska.gardenservicemanagement.common.BinaryParser;
 import com.praca.inzynierska.gardenservicemanagement.datastore.measurements.MeasurementType;
 import com.praca.inzynierska.gardenservicemanagement.datastore.measurements.MeasurementsEntity;
 import com.praca.inzynierska.gardenservicemanagement.datastore.measurements.MeasurementsRepository;
 import com.praca.inzynierska.gardenservicemanagement.datastore.stations.StationsRepository;
-import com.praca.inzynierska.gardenservicemanagement.rabbitMq.listeners.data.model.*;
+import com.praca.inzynierska.gardenservicemanagement.mosquitto.listener.data.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,19 +16,19 @@ import java.util.List;
 
 @Component
 @Slf4j
-public class RabbitMQDataProcessorImpl implements RabbitMQDataProcessor {
+public class MosquittoDataProcessorImpl implements MosquittoDataProcessor {
 
     private final MeasurementsRepository measurementsRepository;
     private final StationsRepository stationsRepository;
 
     @Autowired
-    public RabbitMQDataProcessorImpl(MeasurementsRepository measurementsRepository, StationsRepository stationsRepository) {
+    public MosquittoDataProcessorImpl(MeasurementsRepository measurementsRepository, StationsRepository stationsRepository) {
         this.measurementsRepository = measurementsRepository;
         this.stationsRepository = stationsRepository;
     }
 
     @Override
-    public void saveMeasurementData(RabbitMQDataRequest request) {
+    public void saveMeasurementData(MosquittoDataRequest request) {
         var macAddress = BinaryParser.getMacAddressFromInt64(request.getMac());
         var station = stationsRepository.findByMacAddress(macAddress);
         if(station.isEmpty()) {

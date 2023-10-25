@@ -1,4 +1,4 @@
-package com.praca.inzynierska.gardenservicemanagement.rabbitMq.listeners.data.model;
+package com.praca.inzynierska.gardenservicemanagement.mosquitto.listener.data.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RabbitMQDataRequest implements Serializable {
+public class MosquittoDataRequest implements Serializable {
 
     @JsonProperty("mac")
     long mac;
