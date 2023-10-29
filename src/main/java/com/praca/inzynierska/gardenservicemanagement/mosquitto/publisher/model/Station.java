@@ -11,5 +11,5 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class Station  implements Serializable {
     int measurementPeriod;
-    Values values[];
+    Valves values[];
 }

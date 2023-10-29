@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 public class DeviceConfigurationRequest  implements Serializable {
-    Station station;
+    int measurementPeriod;
+    Valves valves[];
 }
 

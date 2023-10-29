@@ -6,8 +6,8 @@ import com.praca.inzynierska.gardenservicemanagement.mosquitto.listener.register
 import com.praca.inzynierska.gardenservicemanagement.mosquitto.listener.register.services.MosquittoRegisterProcessor;
 import com.praca.inzynierska.gardenservicemanagement.mosquitto.publisher.MosquittoPublisherProcessor;
 import com.praca.inzynierska.gardenservicemanagement.mosquitto.publisher.model.DeviceConfigurationRequest;
-import com.praca.inzynierska.gardenservicemanagement.mosquitto.publisher.model.Station;
-import com.praca.inzynierska.gardenservicemanagement.mosquitto.publisher.model.Values;
+import com.praca.inzynierska.gardenservicemanagement.mosquitto.publisher.model.OperationMode;
+import com.praca.inzynierska.gardenservicemanagement.mosquitto.publisher.model.Valves;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -73,19 +73,16 @@ public class MosquittoRegisterListener {
 
     private DeviceConfigurationRequest prepareDeviceConfiguration() {
         var deviceConf = DeviceConfigurationRequest.builder();
-        deviceConf.station(Station.builder()
-                                  .measurementPeriod(1)
-                                  .values(initValuesForNewDevice())
-                                  .build()
-
-        ).build();
+        deviceConf.measurementPeriod(1)
+                  .valves(initValuesForNewDevice())
+                  .build();
         return deviceConf.build();
     }
 
-    private Values[] initValuesForNewDevice() {
-        var valuesTab = new Values[16];
+    private Valves[] initValuesForNewDevice() {
+        var valuesTab = new Valves[16];
         for(int i=0;i<16;i++) {
-            valuesTab[i] = new Values(false, null);
+            valuesTab[i] = new Valves(i, OperationMode.OFF.value, 1, null);
         }
         return valuesTab;
     }

@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class WilgotnoscGleby implements Serializable {
+public class SoilHumidity implements Serializable {
 
     @JsonProperty("input_line")
     int inputLine;

@@ -42,13 +42,13 @@ public class MosquittoDataProcessorImpl implements MosquittoDataProcessor {
         if(request.getSun() != null) {
             Arrays.stream(request.getSun()).forEach(it -> measurementToSave.add(sunMeasurementToEntity(it, request.getTimestamp(), stationId)));
         }
-        if(request.getWilgotnoscGleby() != null) {
-            Arrays.stream(request.getWilgotnoscGleby()).forEach(it -> measurementToSave.add(wilgotnoscMeasurementToEntity(it, request.getTimestamp(), stationId)));
+        if(request.getSoilHumidity() != null) {
+            Arrays.stream(request.getSoilHumidity()).forEach(it -> measurementToSave.add(wilgotnoscMeasurementToEntity(it, request.getTimestamp(), stationId)));
         }
-        if(request.getWilgotnoscGleby() != null) {
+        if(request.getSoilHumidity() != null) {
             Arrays.stream(request.getDth11()).forEach(it -> measurementToSave.addAll(dth11MeasurementToEntity(it, request.getTimestamp(), stationId)));
         }
-        if(request.getWilgotnoscGleby() != null) {
+        if(request.getSoilHumidity() != null) {
             Arrays.stream(request.getDs18b20()).forEach(it -> measurementToSave.add(dscosMeasurementToEntity(it, request.getTimestamp(), stationId)));
         }
 
@@ -60,16 +60,16 @@ public class MosquittoDataProcessorImpl implements MosquittoDataProcessor {
         return MeasurementsEntity.builder()
                                  .idStation(stationId)
                                  .value(sun.getValue())
-                                 .type(MeasurementType.SUN.name())
+                                 .type(MeasurementType.INSOLATION.name())
                                  .timestamp(timestamp)
                                  .build();
     }
 
-    private MeasurementsEntity wilgotnoscMeasurementToEntity(WilgotnoscGleby wilgotnosc, long timestamp, Long stationId) {
+    private MeasurementsEntity wilgotnoscMeasurementToEntity(SoilHumidity wilgotnosc, long timestamp, Long stationId) {
         return MeasurementsEntity.builder()
                                  .idStation(stationId)
                                  .value(wilgotnosc.getValue())
-                                 .type(MeasurementType.WILGOTNOSC.name())
+                                 .type(MeasurementType.SOIL_HUMIDITY.name())
                                  .timestamp(timestamp)
                                  .build();
     }
@@ -78,14 +78,14 @@ public class MosquittoDataProcessorImpl implements MosquittoDataProcessor {
         var humidityObject = MeasurementsEntity.builder()
                                                .idStation(stationId)
                                                .value(dth11.getValueHumidity())
-                                               .type(MeasurementType.HUMIDITY.name())
+                                               .type(MeasurementType.AIR_HUMIDITY.name())
                                                .timestamp(timestamp)
                                                .build();
 
         var tempObject = MeasurementsEntity.builder()
                                            .idStation(stationId)
                                            .value(dth11.getValueTemp())
-                                           .type(MeasurementType.TEMP.name())
+                                           .type(MeasurementType.AIR_TEMP.name())
                                            .timestamp(timestamp)
                                            .build();
 
@@ -96,7 +96,7 @@ public class MosquittoDataProcessorImpl implements MosquittoDataProcessor {
         return MeasurementsEntity.builder()
                                  .idStation(stationId)
                                  .value(ds18b20.getValue())
-                                 .type(MeasurementType.DS_COS.name())
+                                 .type(MeasurementType.AIR_TEMP.name())
                                  .timestamp(timestamp)
                                  .build();
     }

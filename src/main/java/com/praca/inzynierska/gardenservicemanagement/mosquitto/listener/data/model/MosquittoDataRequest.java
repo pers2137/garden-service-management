@@ -17,8 +17,8 @@ public class MosquittoDataRequest implements Serializable {
     @JsonProperty("mac")
     long mac;
 
-    @JsonProperty("wilgotnosc_gleby")
-    WilgotnoscGleby wilgotnoscGleby[];
+    @JsonProperty("soil_humidity")
+    SoilHumidity[] soilHumidity;
 
     @JsonProperty("sun")
     Sun sun[];
