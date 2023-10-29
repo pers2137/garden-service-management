@@ -40,7 +40,8 @@ public class MosquittoDataListener {
             try {
                  request = gsonParser.fromJson(stringRequest, MosquittoDataRequest.class);
             } catch (JsonSyntaxException e) {
-                log.info("dataListener - Parser error !");
+                log.error("dataListener - Parser error !");
+                e.printStackTrace();
                 return;
             }
 

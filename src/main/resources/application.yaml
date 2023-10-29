@@ -1,14 +1,7 @@
 server:
-  port: 8081
+  port: 8082
 
 spring:
-  # rabbitMQ config
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
-
   # datasource config
   datasource:
     url: "jdbc:postgresql://localhost:5432/demo_db"     #local app        -> (pgadmin4|postgres) local db |

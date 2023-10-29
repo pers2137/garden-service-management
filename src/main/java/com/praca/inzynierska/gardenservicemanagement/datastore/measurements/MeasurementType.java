@@ -8,3 +8,12 @@ public enum MeasurementType {
     DS_COS
 
 }
+
+
+//    INSOLATION,
+//            SOIL_HUMIDITY,
+//            AIR_HUMIDITY,
+//            AIR_TEMP,
+////    AIR_TEMP
+//
+//            }

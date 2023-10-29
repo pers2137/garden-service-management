@@ -2,8 +2,8 @@ package com.praca.inzynierska.gardenservicemanagement.common;
 
 public class BinaryParser {
 
-    public static String getIpAddressFromInt32(int value) {
-        var octets = new int[4];
+    public static String getIpAddressFromInt32(long value) {
+        var octets = new long[4];
         for(int i=0; i<4;i++) {
           octets[i] = (value >> (i * 8)) & 0xFF;
         }

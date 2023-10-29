@@ -2,7 +2,6 @@ package com.praca.inzynierska.gardenservicemanagement.mosquitto.listener.registe
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.praca.inzynierska.gardenservicemanagement.common.BinaryParser;
 import com.praca.inzynierska.gardenservicemanagement.mosquitto.listener.register.model.MosquittoRegisterRequest;
 import com.praca.inzynierska.gardenservicemanagement.mosquitto.listener.register.services.MosquittoRegisterProcessor;
 import com.praca.inzynierska.gardenservicemanagement.mosquitto.publisher.MosquittoPublisherProcessor;
@@ -48,17 +47,18 @@ public class MosquittoRegisterListener {
             try {
                  request = gsonParser.fromJson(stringRequest, MosquittoRegisterRequest.class);
             } catch (JsonSyntaxException e) {
-                log.info("registerListener - Parser error!");
+                log.error("registerListener - Parser error!");
+                e.printStackTrace();
                 return;
             }
-            System.out.println("MosquittoRegisterRequest parsed successfully");
+            log.info("MosquittoRegisterRequest parsed successfully");
 
            //TODO - DO ROZWAZENIA SYTUACJA KIEDY URZADZENIE ISTNIEJE ALE KOLEJKI TAKIEJ NIE MA -> ZROBIC JAKIEGOS CHECKA CZY TAKA KOLEJKA ISTNIEJE
            if(registerProcessor.registerStation(request)) {
                var deviceConfiguration = prepareDeviceConfiguration();
-               mosquittoPublisherProcessor.sendConfigurationMessageToTopic(String.format("configuration_%d",request.getMac()), deviceConfiguration);
+               mosquittoPublisherProcessor.sendConfigurationMessage(request.getMac(), deviceConfiguration);
            }
-           log.info("Register request from {} was handled.", BinaryParser.getMacAddressFromInt64(request.getMac()));
+           log.info("Register request from {} was handled.", request.getMac());
 
         };
 
@@ -74,9 +74,9 @@ public class MosquittoRegisterListener {
     private DeviceConfigurationRequest prepareDeviceConfiguration() {
         var deviceConf = DeviceConfigurationRequest.builder();
         deviceConf.station(Station.builder()
-                .measurementPeriod(1)
-                .values(initValuesForNewDevice())
-                .build()
+                                  .measurementPeriod(1)
+                                  .values(initValuesForNewDevice())
+                                  .build()
 
         ).build();
         return deviceConf.build();

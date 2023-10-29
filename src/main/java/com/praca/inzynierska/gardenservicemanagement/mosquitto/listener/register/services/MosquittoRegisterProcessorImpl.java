@@ -22,7 +22,7 @@ public class MosquittoRegisterProcessorImpl implements MosquittoRegisterProcesso
 
     @Override
     public boolean registerStation(MosquittoRegisterRequest request) {
-        var macAddress = BinaryParser.getMacAddressFromInt64(request.getMac());
+        var macAddress = request.getMac();
 
         if(stationsRepository.existsByMacAddress(macAddress)) {
              log.error(String.format("Station MAC: %s already exist!", macAddress));
