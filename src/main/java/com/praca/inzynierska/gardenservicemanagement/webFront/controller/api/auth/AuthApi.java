@@ -1,8 +1,8 @@
-package com.praca.inzynierska.gardenservicemanagement.webFront.controller.api;
+package com.praca.inzynierska.gardenservicemanagement.webFront.controller.api.auth;
 
-import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.LoginRequest;
-import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.LoginResponse;
-import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.RegisterRequest;
+import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.auth.LoginRequest;
+import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.auth.LoginResponse;
+import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.auth.RegisterRequest;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.MediaType;

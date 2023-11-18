@@ -2,9 +2,9 @@ package com.praca.inzynierska.gardenservicemanagement.webFront.service.impl;
 
 import com.praca.inzynierska.gardenservicemanagement.datastore.user.UserEntity;
 import com.praca.inzynierska.gardenservicemanagement.datastore.user.UserRepository;
-import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.LoginRequest;
-import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.LoginResponse;
-import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.RegisterRequest;
+import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.auth.LoginRequest;
+import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.auth.LoginResponse;
+import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.auth.RegisterRequest;
 import com.praca.inzynierska.gardenservicemanagement.webFront.errorHandler.exception.ResponseException;
 import com.praca.inzynierska.gardenservicemanagement.webFront.errorHandler.exception.ResponseStatus;
 import com.praca.inzynierska.gardenservicemanagement.webFront.service.UserService;
@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
         List<String> errors = UserValidator.validateUserCredentials(request.getUserName(), request.getPassword());
         if (!errors.isEmpty()) {
             log.error("Wrogn credensial! - {}", errors);
-            throw new ResponseException("auth.missing-information", ResponseStatus.USER_NOT_VALID, errors);
+            throw new ResponseException("auth.missing-information", ResponseStatus.UNAUTHORIZED, errors);
         }
 
         return userRepository.findUserByUserNameAndPassword(request.getUserName(), request.getPassword())

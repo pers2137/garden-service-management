@@ -1,4 +1,4 @@
-package com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel;
+package com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.auth;
 
 import lombok.Data;
 

@@ -9,7 +9,7 @@ public class UserValidator {
     public static List<String> validateUserCredentials(String email, String password) {
         List<String> errors = new ArrayList<>();
         if (StringUtils.isEmpty(email)) {
-            errors.add("Email is empty");
+            errors.add("User name  is empty");
         }
         if (StringUtils.isEmpty(password)) {
             errors.add("Password is empty");

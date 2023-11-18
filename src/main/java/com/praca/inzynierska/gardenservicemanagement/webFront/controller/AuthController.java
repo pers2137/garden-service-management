@@ -1,9 +1,9 @@
 package com.praca.inzynierska.gardenservicemanagement.webFront.controller;
 
-import com.praca.inzynierska.gardenservicemanagement.webFront.controller.api.AuthApi;
-import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.LoginRequest;
-import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.LoginResponse;
-import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.RegisterRequest;
+import com.praca.inzynierska.gardenservicemanagement.webFront.controller.api.auth.AuthApi;
+import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.auth.LoginRequest;
+import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.auth.LoginResponse;
+import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.auth.RegisterRequest;
 import com.praca.inzynierska.gardenservicemanagement.webFront.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

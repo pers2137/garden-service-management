@@ -1,3 +1,8 @@
+# SWAGGER
+
+`http://localhost:8082/swagger-ui/index.html#`
+
+
 # RABBITMQ - INSTALLATION
 
 - `docker pull rabbitmq:3.12.7-management`
