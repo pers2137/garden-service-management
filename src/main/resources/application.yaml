@@ -32,3 +32,9 @@ mosquitto:
   broker:
     host: localhost
     port: 1883
+
+app:
+  valves:
+    default:
+      operationMode: OFF #OFF, ON, AUTO
+      enableHigh: 1

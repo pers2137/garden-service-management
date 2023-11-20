@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Data
 @Builder
 @AllArgsConstructor
-public class Valves implements Serializable {
+public class MosquitoConfigValves implements Serializable {
     int pin; //0-15
 
     @JsonProperty("operation_mode")

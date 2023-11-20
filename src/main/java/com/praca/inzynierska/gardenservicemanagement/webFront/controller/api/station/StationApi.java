@@ -2,6 +2,7 @@ package com.praca.inzynierska.gardenservicemanagement.webFront.controller.api.st
 
 import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.station.StationInformationResponse;
 import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.station.StationListResponse;
+import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.station.StationSettingsResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.MediaType;
@@ -20,4 +21,9 @@ public interface StationApi {
             @ApiResponse(responseCode = "404", description = "station.not-found: Station not find")})
     @GetMapping(value = APP_ROOT + "/station/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<StationInformationResponse> getStation(@PathVariable Long id);
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "404", description = "station.not-found: Station not find")})
+    @GetMapping(value = APP_ROOT + "/station/settings/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<StationSettingsResponse> getStationSettings(@PathVariable Long id);
 }
