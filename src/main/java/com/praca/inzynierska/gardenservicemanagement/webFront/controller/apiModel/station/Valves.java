@@ -5,12 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Builder
 @Data
 @AllArgsConstructor
 public class Valves {
     private int pin;
     private OperationMode operationMode;
-    private int enableHigh;
-    //TODO -> DODANIE SCHEDULERA
+    private boolean enableHigh;
+    private List<Schedule> schedulesList;
+
 }

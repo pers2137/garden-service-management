@@ -5,6 +5,8 @@ import com.praca.inzynierska.gardenservicemanagement.mosquitto.publisher.model.M
 import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.station.Valves;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.util.Collections;
+
 
 public class DefaultValves {
 
@@ -23,7 +25,7 @@ public class DefaultValves {
 
 //    OperationMode.valueOf(operationMode)
     public static Valves defaultValvesForWWW(final int pin) {
-        return new Valves(pin, OperationMode.OFF, enableHigh);
+        return new Valves(pin, OperationMode.OFF, enableHigh != 0, Collections.emptyList());
     }
 
 }
