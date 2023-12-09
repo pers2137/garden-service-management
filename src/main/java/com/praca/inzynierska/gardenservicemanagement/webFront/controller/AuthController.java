@@ -23,10 +23,10 @@ public class AuthController implements AuthApi {
         return new ResponseEntity<>(userService.login(request), HttpStatus.OK);
     }
 
-    @Override
-    public ResponseEntity<Void> createUser(RegisterRequest request) {
-        userService.create(request);
-        return ResponseEntity.ok().body(null);
-    }
+//    @Override
+//    public ResponseEntity<Void> createUser(RegisterRequest request) {
+//        userService.create(request);
+//        return ResponseEntity.ok().body(null);
+//    }
 
 }

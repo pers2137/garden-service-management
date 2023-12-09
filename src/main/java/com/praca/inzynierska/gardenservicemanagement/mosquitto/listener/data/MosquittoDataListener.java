@@ -31,7 +31,7 @@ public class MosquittoDataListener {
 
     @Bean
     public void dataListener() {
-        IMqttMessageListener test = (topicName, mqttMessage) -> {
+        IMqttMessageListener listener = (topicName, mqttMessage) -> {
             String stringRequest = new String(mqttMessage.getPayload());
             log.info("Received register request: {}", stringRequest);
 
@@ -45,14 +45,12 @@ public class MosquittoDataListener {
                 return;
             }
 
-            System.out.println("MosquittoDataRequest parsed successfully");
-
             registerProcessor.saveMeasurementData(request);
             log.info("Data request from {} was handled.", BinaryParser.getMacAddressFromInt64(request.getMac()));
         };
 
         try {
-            mqttClient.subscribe(dataTopic, 0, test);
+            mqttClient.subscribe(dataTopic, 0, listener);
         } catch (Exception e) {
             log.error("Error during creating dataTopic");
             e.printStackTrace();

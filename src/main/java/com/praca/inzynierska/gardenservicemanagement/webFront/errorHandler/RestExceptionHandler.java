@@ -18,8 +18,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ResponseException.class)
-    public ResponseEntity<DefaultError> handleBadRequestException(ResponseException ex) throws JsonProcessingException {
-        ObjectMapper obj = new ObjectMapper();
+    public ResponseEntity<DefaultError> handleBadRequestException(ResponseException ex){
         var defaultHttpErrorObject = toHttpDefaultErrorObject(ex);
 
         return ResponseEntity.status(toHttpStatus(ex.getStatus())).body(defaultHttpErrorObject);

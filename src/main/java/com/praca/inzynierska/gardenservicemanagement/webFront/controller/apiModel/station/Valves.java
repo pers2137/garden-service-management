@@ -15,5 +15,4 @@ public class Valves {
     private OperationMode operationMode;
     private boolean enableHigh;
     private List<Schedule> schedulesList;
-
 }
