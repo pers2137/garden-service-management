@@ -53,13 +53,10 @@ public class MosquittoRegisterListener {
             }
             log.info("MosquittoRegisterRequest parsed successfully");
 
-           //TODO - DO ROZWAZENIA SYTUACJA KIEDY URZADZENIE ISTNIEJE ALE KOLEJKI TAKIEJ NIE MA -> ZROBIC JAKIEGOS CHECKA CZY TAKA KOLEJKA ISTNIEJE
-           if(registerProcessor.registerStation(request)) {
-               var deviceConfiguration = prepareDeviceConfiguration();
-               mosquittoPublisherProcessor.sendConfigurationMessage(request.getMac(), deviceConfiguration);
-           }
-           log.info("Register request from {} was handled.", request.getMac());
+            var deviceConfiguration = registerProcessor.registerStation(request);
+            mosquittoPublisherProcessor.sendConfigurationMessage(request.getMac(), deviceConfiguration);
 
+            log.info("Register request from {} was handled.", request.getMac());
         };
 
         try {
@@ -71,20 +68,20 @@ public class MosquittoRegisterListener {
         }
     }
 
-    private DeviceConfigurationRequest prepareDeviceConfiguration() {
-        var deviceConf = DeviceConfigurationRequest.builder();
-        deviceConf.measurementPeriod(1)
-                  .valves(initValuesForNewDevice())
-                  .build();
-        return deviceConf.build();
-    }
-
-    private MosquitoConfigValves[] initValuesForNewDevice() {
-        var valuesTab = new MosquitoConfigValves[16];
-        for(int i=0;i<16;i++) {
-            valuesTab[i] = DefaultValves.defaultConfiguration(i);
-        }
-        return valuesTab;
-    }
+//    private DeviceConfigurationRequest prepareDefaultStationConfiguration() {
+//        var deviceConf = DeviceConfigurationRequest.builder();
+//        deviceConf.measurementPeriod(1)
+//                  .valves(initValuesForNewDevice())
+//                  .build();
+//        return deviceConf.build();
+//    }
+//
+//    private MosquitoConfigValves[] initValuesForNewDevice() {
+//        var valuesTab = new MosquitoConfigValves[16];
+//        for(int i=0;i<16;i++) {
+//            valuesTab[i] = DefaultValves.defaultConfiguration(i);
+//        }
+//        return valuesTab;
+//    }
 
 }

@@ -16,7 +16,7 @@ import static com.praca.inzynierska.gardenservicemanagement.webFront.utils.Const
 @Tag(name = "Station", description = "Station controller")
 public interface StationApi {
 
-    @GetMapping(value = APP_ROOT + "/station/list", produces = MediaType.APPLICATION_JSON_VALUE) //get/
+    @GetMapping(value = APP_ROOT + "/station/get/list", produces = MediaType.APPLICATION_JSON_VALUE) //get/
     ResponseEntity<StationListResponse> getStationList();
 
 //    @ApiResponses(value = {
@@ -26,7 +26,7 @@ public interface StationApi {
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "station.not-found: Station not fond")})
-    @GetMapping(value = APP_ROOT + "/station/settings/{id}", produces = MediaType.APPLICATION_JSON_VALUE) //get/
+    @GetMapping(value = APP_ROOT + "/station/settings/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE) //get/
     ResponseEntity<StationSettingsResponse> getStationSettings(@PathVariable Long id);
 
     @ApiResponses(value = {
@@ -36,7 +36,7 @@ public interface StationApi {
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "station.not-found: Station not fond")}) //get/
-    @GetMapping(value = APP_ROOT + "/station/information/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = APP_ROOT + "/station/information/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<StationDetailsInformationResponse> getStationInformationDetails(@PathVariable Long id);
 
 }

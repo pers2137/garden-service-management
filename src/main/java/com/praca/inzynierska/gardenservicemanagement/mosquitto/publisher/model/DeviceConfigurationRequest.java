@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Builder
@@ -14,6 +15,6 @@ public class DeviceConfigurationRequest  implements Serializable {
     int measurementPeriod;
 
     @JsonProperty("valves")
-    MosquitoConfigValves valves[];
+    List<MosquitoConfigValves> valves;
 }
 

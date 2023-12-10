@@ -1,4 +1,4 @@
-package com.praca.inzynierska.gardenservicemanagement.webFront.provider;
+package com.praca.inzynierska.gardenservicemanagement.webFront.updater;
 
 import com.praca.inzynierska.gardenservicemanagement.datastore.valves.ValvesEntity;
 import com.praca.inzynierska.gardenservicemanagement.datastore.valves.ValvesRepository;
@@ -8,17 +8,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ValvesInvokerProvider implements ValvesProvider {
+public class ValvesInvokerUpdater implements ValvesUpdater{
 
     ValvesRepository valvesRepository;
 
     @Autowired
-    public ValvesInvokerProvider(ValvesRepository valvesRepository) {
+    public ValvesInvokerUpdater(ValvesRepository valvesRepository) {
         this.valvesRepository = valvesRepository;
     }
 
     @Override
-    public List<ValvesEntity> getValvesForStation(Long id) {
-        return valvesRepository.findAllByStationId(id);
+    public void saveValves(List<ValvesEntity> valvesList) {
+        valvesRepository.saveAll(valvesList);
     }
 }

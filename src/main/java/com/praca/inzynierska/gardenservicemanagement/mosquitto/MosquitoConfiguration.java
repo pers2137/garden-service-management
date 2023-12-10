@@ -38,7 +38,7 @@ public class MosquitoConfiguration {
             client.connect(options);
             return client;
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
         throw new RuntimeException();
     }

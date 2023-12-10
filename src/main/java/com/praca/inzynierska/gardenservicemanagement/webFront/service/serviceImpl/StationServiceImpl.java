@@ -1,10 +1,12 @@
 package com.praca.inzynierska.gardenservicemanagement.webFront.service.serviceImpl;
 
+import com.praca.inzynierska.gardenservicemanagement.common.DeviceConfigurationRequestMapper;
 import com.praca.inzynierska.gardenservicemanagement.datastore.schedules.SchedulesEntity;
 import com.praca.inzynierska.gardenservicemanagement.datastore.stations.StationsEntity;
-import com.praca.inzynierska.gardenservicemanagement.datastore.stations.StationsRepository;
 import com.praca.inzynierska.gardenservicemanagement.datastore.valves.ValvesEntity;
 import com.praca.inzynierska.gardenservicemanagement.datastore.valves.ValvesRepository;
+import com.praca.inzynierska.gardenservicemanagement.mosquitto.publisher.MosquittoPublisherProcessor;
+import com.praca.inzynierska.gardenservicemanagement.mosquitto.publisher.model.DeviceConfigurationRequest;
 import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.station.*;
 import com.praca.inzynierska.gardenservicemanagement.webFront.errorHandler.exception.ResponseException;
 import com.praca.inzynierska.gardenservicemanagement.webFront.errorHandler.exception.ResponseStatus;
@@ -21,7 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,6 +38,8 @@ public class StationServiceImpl implements StationService {
     SensorProvider sensorProvider;
     MeasurementsProvider measurementsProvider;
     StationProvider stationProvider;
+    MosquittoPublisherProcessor mosquittoPublisherProcessor;
+
 
     @Autowired
     public StationServiceImpl(ValvesRepository valvesRepository,
@@ -44,13 +47,15 @@ public class StationServiceImpl implements StationService {
                               ValvesProvider valvesProvider,
                               SensorProvider sensorProvider,
                               MeasurementsProvider measurementsProvider,
-                              StationProvider stationProvider) {
+                              StationProvider stationProvider,
+                              MosquittoPublisherProcessor mosquittoPublisherProcessor) {
         this.valvesRepository = valvesRepository;
         this.stationUpdater = stationUpdater;
         this.valvesProvider = valvesProvider;
         this.sensorProvider = sensorProvider;
         this.measurementsProvider = measurementsProvider;
         this.stationProvider = stationProvider;
+        this.mosquittoPublisherProcessor = mosquittoPublisherProcessor;
     }
 
 
@@ -89,7 +94,7 @@ public class StationServiceImpl implements StationService {
 
     @Override
     @Transactional
-    public StationSettingsResponse saveStationSettings(Long id, SaveSettingsRequest request) {
+    public StationSettingsResponse saveStationSettings(final Long id, final SaveSettingsRequest request) {
         var station = stationProvider.getStationById(id)
                                      .orElseThrow(() -> new ResponseException("station.not-found", ResponseStatus.NOT_FOUND));
 
@@ -97,18 +102,21 @@ public class StationServiceImpl implements StationService {
         station.setName(request.getName());
         station.setMeasurementPeriod(request.getMeasurementPeriod());
 
-        //TODO -> DO DOROBIENIA ZWROT I OBSŁUGA?
-        var updatedValvesList = stationUpdater.toUpdatedValvesList(valves, request.getValvesList(), id);
 
+        var updatedValvesList = stationUpdater.toUpdatedValvesList(valves, request.getValvesList(), id);
+        var deviceMosquitoRequest = DeviceConfigurationRequestMapper.toDeviceConfigurationRequest(updatedValvesList, request.getMeasurementPeriod());
+        //TODO -> ZAWENZENIE KONFIGURACJI TYLKO DO TYCH CO SIE ZMIENILY POROWNANIE valves ORAZ  updatedValvesList
+        mosquittoPublisherProcessor.sendConfigurationMessage(station.getMacAddress(), deviceMosquitoRequest);
+        //TODO -> DO DOROBIENIA ZWROT I OBSŁUGA? --- updatedValvesList
         return null;
     }
 
     @Override
-    public StationDetailsInformationResponse getStationInformationDetails(Long id) {
+    public StationDetailsInformationResponse getStationInformationDetails(final Long id) {
         var station = stationProvider.getStationById(id)
                                      .orElseThrow(() -> new ResponseException("station.not-found", ResponseStatus.NOT_FOUND));
 
-        var valvesEntity = valvesProvider.getValvesInformation(id);
+        var valvesEntity = valvesProvider.getValvesForStation(id);
         var valvesList = toValvesList(valvesEntity).stream()
                                                    .map(this::toValvesInformation)
                                                    .toList();
@@ -129,7 +137,7 @@ public class StationServiceImpl implements StationService {
                                                 .build();
     }
 
-    private ValvesInformation toValvesInformation(Valves valves) {
+    private ValvesInformation toValvesInformation(final Valves valves) {
         return ValvesInformation.builder()
                                 .pin(valves.getPin())
                                 .operationMode(valves.getOperationMode())
@@ -137,9 +145,9 @@ public class StationServiceImpl implements StationService {
     }
 
 
-    private List<Valves> toValvesList(List<ValvesEntity> valves) {
+    private List<Valves> toValvesList(final List<ValvesEntity> valves) {
         var mappedValves = valves.stream().map(this::toValves).collect(Collectors.toList());
-        for(int i=1;i<17;i++) {
+        for(int i=0;i<16;i++) {
             if(!checkValveExist(mappedValves, i)) {
                 mappedValves.add(DefaultValves.defaultValvesForWWW(i));
             }
@@ -150,24 +158,24 @@ public class StationServiceImpl implements StationService {
                            .collect(Collectors.toList());
     }
 
-    private boolean checkValveExist(List<Valves> mappedValves, int i) {
+    private boolean checkValveExist(final List<Valves> mappedValves, int i) {
         return mappedValves.stream().anyMatch(it -> it.getPin() == i);
     }
 
-    private Valves toValves(ValvesEntity valvesEntity) {
+    private Valves toValves(final ValvesEntity valvesEntity) {
         return Valves.builder()
                      .pin(valvesEntity.getPin())
                      .operationMode(valvesEntity.getOperationMode())
-                     .enableHigh(valvesEntity.isEnableHigh())
+                     .enableHigh(valvesEntity.getEnableHigh())
                      .schedulesList(toSchedulesList(valvesEntity.getSchedulesList()))
                      .build();
     }
 
-    private List<Schedule> toSchedulesList(List<SchedulesEntity> schedulesList) {
+    private List<Schedule> toSchedulesList(final List<SchedulesEntity> schedulesList) {
         return schedulesList.stream().map(this::toSchedules).collect(Collectors.toList());
     }
 
-    private Schedule toSchedules(SchedulesEntity schedulesEntity) {
+    private Schedule toSchedules(final SchedulesEntity schedulesEntity) {
         return Schedule.builder()
                        .id(schedulesEntity.getId())
                        .dayOfWeek(schedulesEntity.getDayOfWeek())
@@ -178,7 +186,7 @@ public class StationServiceImpl implements StationService {
                        .build();
     }
 
-    private StationListElement toStationElement(StationsEntity stationsEntity) {
+    private StationListElement toStationElement(final StationsEntity stationsEntity) {
         return StationListElement.builder()
                                  .id(stationsEntity.getId())
                                  .name(stationsEntity.getName())

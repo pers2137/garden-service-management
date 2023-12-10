@@ -34,7 +34,7 @@ public class ValvesEntity {
     private OperationMode operationMode;
 
     @Column(name = "ENABLE_HIGH")
-    private boolean enableHigh;
+    private Boolean enableHigh;
 
     @OneToMany(mappedBy = "valvesEntity",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<SchedulesEntity> schedulesList;

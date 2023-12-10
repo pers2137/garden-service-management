@@ -6,5 +6,5 @@ import com.praca.inzynierska.gardenservicemanagement.datastore.valves.ValvesEnti
 import java.util.List;
 
 public interface ValvesProvider {
-    List<ValvesEntity> getValvesInformation(Long id);
+    List<ValvesEntity> getValvesForStation(Long id);
 }

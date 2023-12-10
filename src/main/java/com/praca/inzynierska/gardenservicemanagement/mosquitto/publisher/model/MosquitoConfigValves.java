@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Builder
@@ -19,5 +20,5 @@ public class MosquitoConfigValves implements Serializable {
     @JsonProperty("enable_high")
     int enableHigh;
 
-    Schedules schedules[];
+    List<Schedules> schedules;
 }

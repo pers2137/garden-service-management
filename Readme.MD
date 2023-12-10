@@ -13,7 +13,7 @@
 
 # MOSQUITO - INSTALLATION
 
-- `docker-compose up`
+- `docker compose start`
 
 ---
 
@@ -53,7 +53,7 @@
 
 ## REGISTER MOSQUITO REQUEST
 
-    mosquitto_pub -h localhost -p 1883 -t register -m "{"ip":285255872,"mac":4477672765554641344,"sv":0}"
+    mosquitto_pub -h localhost -p 1883 -t register -m "{"ip":285255872,"mac":"222222","sv":0}"
 
 
 ## DATA MOSQUITO REQUEST

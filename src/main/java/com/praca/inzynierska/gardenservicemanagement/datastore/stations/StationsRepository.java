@@ -8,6 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface StationsRepository extends JpaRepository<StationsEntity, Long> {
+
     boolean existsByMacAddress(String macAddress);
     Optional<StationsEntity> findByMacAddress(String macAddress);
 }

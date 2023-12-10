@@ -22,26 +22,26 @@ public class TestController {
 
     @GetMapping("/")
     public void test() {
-        valvesRepository.save(ValvesEntity.builder()
-                        .stationId(902L)
-                        .pin(1)
-                        .enableHigh(true)
-                        .operationMode(OperationMode.OFF)
-                        .build());
-
-        valvesRepository.save(ValvesEntity.builder()
-                .stationId(902L)
-                .pin(2)
-                .enableHigh(false)
-                .operationMode(OperationMode.ON)
-                .build());
-
-        valvesRepository.save(ValvesEntity.builder()
-                .stationId(902L)
-                .pin(3)
-                .enableHigh(true)
-                .operationMode(OperationMode.AUTO)
-                .build());
+//        valvesRepository.save(ValvesEntity.builder()
+//                        .stationId(902L)
+//                        .pin(1)
+//                        .enableHigh(true)
+//                        .operationMode(OperationMode.OFF)
+//                        .build());
+//
+//        valvesRepository.save(ValvesEntity.builder()
+//                .stationId(902L)
+//                .pin(2)
+//                .enableHigh(false)
+//                .operationMode(OperationMode.ON)
+//                .build());
+//
+//        valvesRepository.save(ValvesEntity.builder()
+//                .stationId(902L)
+//                .pin(3)
+//                .enableHigh(true)
+//                .operationMode(OperationMode.AUTO)
+//                .build());
 //        mosquitoPublisher.sendMessageToTopic("register", "test");
 //        mosquitoPublisher.sendMessageToTopic("data", "test");
 //        mosquitoPublisher.sendMessageToTopic("xxxx", "test");
