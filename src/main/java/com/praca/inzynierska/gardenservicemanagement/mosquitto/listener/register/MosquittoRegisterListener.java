@@ -1,13 +1,9 @@
 package com.praca.inzynierska.gardenservicemanagement.mosquitto.listener.register;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.praca.inzynierska.gardenservicemanagement.mosquitto.listener.register.model.MosquittoRegisterRequest;
 import com.praca.inzynierska.gardenservicemanagement.mosquitto.listener.register.services.MosquittoRegisterProcessor;
 import com.praca.inzynierska.gardenservicemanagement.mosquitto.publisher.MosquittoPublisherProcessor;
-import com.praca.inzynierska.gardenservicemanagement.mosquitto.publisher.model.DeviceConfigurationRequest;
-import com.praca.inzynierska.gardenservicemanagement.mosquitto.publisher.model.MosquitoConfigValves;
-import com.praca.inzynierska.gardenservicemanagement.webFront.utils.DefaultValves;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -41,18 +37,19 @@ public class MosquittoRegisterListener {
             String stringRequest = new String(mqttMessage.getPayload());
             log.info("Received register request: {}", stringRequest);
 
-            Gson gsonParser = new Gson();
+//            Gson gsonParser = new Gson();
+            ObjectMapper objectMapper = new ObjectMapper();
             MosquittoRegisterRequest request;
 
             try {
-                 request = gsonParser.fromJson(stringRequest, MosquittoRegisterRequest.class);
-            } catch (JsonSyntaxException e) {
+                request = objectMapper.readValue(stringRequest, MosquittoRegisterRequest.class);
+//                 request = gsonParser.fromJson(stringRequest, MosquittoRegisterRequest.class);
+            } catch (Exception e) {
                 log.error("registerListener - Parser error!");
                 e.printStackTrace();
                 return;
             }
             log.info("MosquittoRegisterRequest parsed successfully");
-
             var deviceConfiguration = registerProcessor.registerStation(request);
             mosquittoPublisherProcessor.sendConfigurationMessage(request.getMac(), deviceConfiguration);
 

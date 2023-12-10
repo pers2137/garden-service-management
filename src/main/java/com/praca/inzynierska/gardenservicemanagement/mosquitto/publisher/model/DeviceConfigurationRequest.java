@@ -11,7 +11,9 @@ import java.util.List;
 @Data
 @Builder
 @AllArgsConstructor
-public class DeviceConfigurationRequest  implements Serializable {
+public class DeviceConfigurationRequest implements Serializable {
+
+    @JsonProperty("period")
     int measurementPeriod;
 
     @JsonProperty("valves")

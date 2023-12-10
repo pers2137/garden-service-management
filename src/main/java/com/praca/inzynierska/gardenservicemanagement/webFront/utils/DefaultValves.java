@@ -18,12 +18,12 @@ public class DefaultValves {
 
 
     //TODO -> ZROBIENIE TEGO POLA NA PARAMETRZE
-//    OperationMode.valueOf(operationMode).value
+    // OperationMode.valueOf(operationMode).value
     public static MosquitoConfigValves defaultConfiguration(final int pin) {
         return new MosquitoConfigValves(pin, OperationMode.OFF.value, enableHigh, null);
     }
 
-//    OperationMode.valueOf(operationMode)
+    // OperationMode.valueOf(operationMode)
     public static Valves defaultValvesForWWW(final int pin) {
         return new Valves(pin, OperationMode.OFF, enableHigh != 0, Collections.emptyList());
     }

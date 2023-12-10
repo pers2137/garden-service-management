@@ -6,6 +6,8 @@ import com.praca.inzynierska.gardenservicemanagement.mosquitto.publisher.Mosquit
 import com.praca.inzynierska.gardenservicemanagement.mosquitto.publisher.model.OperationMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,8 +22,10 @@ public class TestController {
         this.valvesRepository = valvesRepository;
     }
 
-    @GetMapping("/")
+    @PostMapping("/")
     public void test() {
+
+        mosquitoPublisher.sendMessageToTopic("register", "{\"ip\":285255872,\"mac\":\"AA:XX:ZZ\",\"sv\":0}");
 //        valvesRepository.save(ValvesEntity.builder()
 //                        .stationId(902L)
 //                        .pin(1)
