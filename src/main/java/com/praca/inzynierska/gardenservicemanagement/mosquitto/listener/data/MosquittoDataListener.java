@@ -1,5 +1,6 @@
 package com.praca.inzynierska.gardenservicemanagement.mosquitto.listener.data;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.praca.inzynierska.gardenservicemanagement.common.BinaryParser;
@@ -35,18 +36,20 @@ public class MosquittoDataListener {
             String stringRequest = new String(mqttMessage.getPayload());
             log.info("Received register request: {}", stringRequest);
 
-            Gson gsonParser = new Gson();
+//            Gson gsonParser = new Gson();
+            ObjectMapper objectMapper = new ObjectMapper();
             MosquittoDataRequest request;
             try {
-                 request = gsonParser.fromJson(stringRequest, MosquittoDataRequest.class);
-            } catch (JsonSyntaxException e) {
+                request = objectMapper.readValue(stringRequest, MosquittoDataRequest.class);
+//                 request = gsonParser.fromJson(stringRequest, MosquittoDataRequest.class);
+            } catch (Exception e) {
                 log.error("dataListener - Parser error !");
-                e.printStackTrace();
+                log.error(e.toString());
                 return;
             }
 
             registerProcessor.saveMeasurementData(request);
-            log.info("Data request from {} was handled.", BinaryParser.getMacAddressFromInt64(request.getMac()));
+            log.info("Data request from {} was handled.", request.getMac());
         };
 
         try {

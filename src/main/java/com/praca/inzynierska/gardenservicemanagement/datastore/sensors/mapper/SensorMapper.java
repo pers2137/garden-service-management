@@ -13,4 +13,14 @@ public class SensorMapper {
                      .stationId(sensorEntity.getStationId())
                      .build();
     }
+
+    public static SensorEntity toSensorEntity(Sensor sensorEntity) {
+        return SensorEntity.builder()
+                           .id(sensorEntity.getId())
+                           .sensorType(sensorEntity.getSensorType())
+                           .address(sensorEntity.getAddress())
+                           .isActive(sensorEntity.isActive())
+                           .stationId(sensorEntity.getStationId())
+                           .build();
+    }
 }

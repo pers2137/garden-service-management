@@ -15,14 +15,15 @@ import java.io.Serializable;
 public class MosquittoDataRequest implements Serializable {
 
     @JsonProperty("mac")
-    long mac;
+    String mac;
 
-    @JsonProperty("soil_humidity")
-    SoilHumidity[] soilHumidity;
 
-    @JsonProperty("sun")
-    Sun sun[];
+    @JsonProperty("analog")
+    Integer[] analog;
 
+    /**
+     * max 8 value - 0-7 line
+     */
     @JsonProperty("dht11")
     Dth11 dth11[];
 

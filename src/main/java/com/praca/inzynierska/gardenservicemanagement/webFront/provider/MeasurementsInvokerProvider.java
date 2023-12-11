@@ -5,10 +5,7 @@ import com.praca.inzynierska.gardenservicemanagement.datastore.measurements.Meas
 import com.praca.inzynierska.gardenservicemanagement.datastore.measurements.MeasurementsRepository;
 import com.praca.inzynierska.gardenservicemanagement.datastore.sensors.SensorType;
 import com.praca.inzynierska.gardenservicemanagement.datastore.sensors.model.Sensor;
-import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.station.AnalogSensorInformation;
-import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.station.Dht11Information;
-import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.station.Ds18b20Information;
-import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.station.SensorInformationObject;
+import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.station.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +16,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoField;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -71,11 +69,15 @@ public class MeasurementsInvokerProvider implements MeasurementsProvider {
     }
 
     private List<AnalogSensorInformation> toAnalogList(final List<Sensor> list, final List<MeasurementsEntity> lastMeasurements) {
-        return list.stream().map(sensor -> toAnalogInformation(sensor, lastMeasurements)).collect(Collectors.toList());
+        return list.stream().map(sensor -> toAnalogInformation(sensor, lastMeasurements))
+                            .sorted(Comparator.comparing(AnalogSensorInformation::getInputLine))
+                            .collect(Collectors.toList());
     }
 
     private List<Dht11Information> toDth11List(final List<Sensor> list, final List<MeasurementsEntity> lastMeasurements) {
-        return list.stream().map(sensor -> toDht11Information(sensor, lastMeasurements)).collect(Collectors.toList());
+        return list.stream().map(sensor -> toDht11Information(sensor, lastMeasurements))
+                            .sorted(Comparator.comparing(Dht11Information::getInputLine))
+                            .collect(Collectors.toList());
     }
 
     private Dht11Information toDht11Information(final Sensor sensor, final List<MeasurementsEntity> lastMeasurements) {

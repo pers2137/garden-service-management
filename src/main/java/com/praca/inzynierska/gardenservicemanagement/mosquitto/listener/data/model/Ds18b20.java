@@ -14,9 +14,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class Ds18b20 implements Serializable {
 
-    @JsonProperty("rom_code")
+    @JsonProperty("addr")
     int romCode;
 
-    @JsonProperty("value")
+    //air temp
+    @JsonProperty("temp")
     double value;
 }

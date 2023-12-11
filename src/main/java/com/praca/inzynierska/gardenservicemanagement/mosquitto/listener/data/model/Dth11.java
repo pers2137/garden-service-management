@@ -14,12 +14,12 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class Dth11 implements Serializable {
 
-    @JsonProperty("input_line")
+    @JsonProperty("line")
     int inputLine;
 
-    @JsonProperty("value_temp")
+    @JsonProperty("temp")
     double valueTemp;
 
-    @JsonProperty("value_humidity")
+    @JsonProperty("hum")
     double valueHumidity;
 }
