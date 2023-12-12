@@ -67,15 +67,33 @@ public class MosquittoDataProcessorImpl implements MosquittoDataProcessor {
 
         if(request.getDth11() != null) {
             Arrays.stream(request.getDth11())
-                  .forEach(it -> measurementToSave.addAll(dth11MeasurementToEntity(it, request.getTimestamp(), sensorList, stationId)));
+                  .forEach(it -> measurementToSave.addAll(dth11MeasurementToEntity(it, request.getTimestamp(), sensorList.stream().filter(el -> el.getSensorType().equals(SensorType.DHT)).toList(), stationId)));
         }
         if(request.getDs18b20() != null) {
-            Arrays.stream(request.getDs18b20()).forEach(it -> measurementToSave.add(dscosMeasurementToEntity(it, request.getTimestamp(), sensorList, stationId)));
+            Arrays.stream(request.getDs18b20()).forEach(it -> measurementToSave.add(dscosMeasurementToEntity(it, request.getTimestamp(), sensorList.stream().filter(el -> el.getSensorType().equals(SensorType.DS)).toList() , stationId)));
         }
-
-        measurementsRepository.saveAll(measurementToSave.stream().filter(Objects::nonNull).collect(Collectors.toList()));
+        var measurementToSaveFiltered = measurementToSave.stream().filter(Objects::nonNull).toList();
+        var sensorToUpdate = disableSensorWhenAreOff(measurementToSaveFiltered, sensorList.stream()
+                                                                                  .filter(it -> it.getSensorType().equals(SensorType.DHT) ||
+                                                                                                it.getSensorType().equals(SensorType.DS))
+                                                                                  .collect(Collectors.toList()));
+        sensorUpdater.updateAllSensor(sensorToUpdate);
+        measurementsRepository.saveAll(measurementToSaveFiltered);
         log.info("Saved all measurements from device {}", macAddress);
 
+    }
+
+    private List<Sensor> disableSensorWhenAreOff(List<MeasurementsEntity> measurementToSave, List<Sensor> sensorList) {
+        var sensorToUpdate = new ArrayList<Sensor>();
+        var sensorOn = sensorList.stream().filter(it -> containsMeasurements(it, measurementToSave)).toList();
+        var sensorOff = sensorList.stream().filter(it -> sensorOn.stream().noneMatch(el -> Objects.equals(el.getId(), it.getId()))).toList();
+//        sensorOn.forEach(it -> { if(!it.isActive()) {it.setActive(true);sensorToUpdate.add(it);}});
+        sensorOff.forEach(it -> { if(it.isActive()) {it.setActive(false);sensorToUpdate.add(it);}});
+        return sensorToUpdate;
+    }
+
+    private boolean containsMeasurements(Sensor sensor, List<MeasurementsEntity> measurementToSave) {
+        return measurementToSave.stream().anyMatch(it -> it.getSensorId().equals(sensor.getId()));
     }
 
     private MeasurementsEntity analogMeasurementToEntity(Integer value, long timestamp, Long line, List<Sensor> sensors, Long stationId) {
