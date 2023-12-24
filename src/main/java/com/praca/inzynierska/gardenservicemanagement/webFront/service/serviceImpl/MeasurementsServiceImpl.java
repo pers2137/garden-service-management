@@ -1,5 +1,6 @@
 package com.praca.inzynierska.gardenservicemanagement.webFront.service.serviceImpl;
 
+import com.praca.inzynierska.gardenservicemanagement.datastore.measurements.MeasurementType;
 import com.praca.inzynierska.gardenservicemanagement.datastore.measurements.MeasurementsEntity;
 import com.praca.inzynierska.gardenservicemanagement.datastore.sensors.SensorType;
 import com.praca.inzynierska.gardenservicemanagement.datastore.sensors.model.Sensor;
@@ -42,14 +43,21 @@ public class MeasurementsServiceImpl implements MeasurementsService {
                                                                                         request.getEndDate());
 
         if(request.getSensorType().equals(SensorType.DHT)) {
-            return makeDataForTwoChart(sensorList, measurementsList);
+            return makeDataForTwoChartDTH(sensorList, measurementsList);
         } else {
             return makeDataForOneChart(sensorList, measurementsList);
         }
     }
 
-    private MeasurementsDataResponse makeDataForTwoChart(List<Sensor> sensorList, List<MeasurementsEntity> measurementsList) {
-        return null;
+    private MeasurementsDataResponse makeDataForTwoChartDTH(List<Sensor> sensorList, List<MeasurementsEntity> measurementsList) {
+        return MeasurementsDataResponse.builder()
+                                       .chartDataA(makeChartData(sensorList, measurementsList.stream()
+                                                                                             .filter(it -> it.getType().equals(MeasurementType.AIR_TEMP))
+                                                                                             .collect(Collectors.toList())))
+                                       .chartDataB(makeChartData(sensorList, measurementsList.stream()
+                                                                                             .filter(it -> it.getType().equals(MeasurementType.AIR_HUMIDITY))
+                                                                                             .collect(Collectors.toList())))
+                                       .build();
     }
 
     private MeasurementsDataResponse makeDataForOneChart(final List<Sensor> sensorList, final List<MeasurementsEntity> measurementsList) {

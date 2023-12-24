@@ -7,7 +7,7 @@ public class BinaryParser {
         for(int i=0; i<4;i++) {
           octets[i] = (value >> (i * 8)) & 0xFF;
         }
-        return String.format("%d.%d.%d.%d", octets[3],octets[2],octets[1],octets[0]);
+        return String.format("%d.%d.%d.%d", octets[0],octets[1],octets[2],octets[3]);
     }
 
     public static int convertIpAddressToInt32(String value) {

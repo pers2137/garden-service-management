@@ -21,8 +21,8 @@ public interface MeasurementsRepository extends JpaRepository<MeasurementsEntity
 
     @Query("SELECT m FROM MeasurementsEntity m " +
             "WHERE m.sensorId IN :sensorIds " +
-            "AND m.timestamp >= :endDate " +
-            "AND m.timestamp <= :startDate")
+            "AND m.timestamp >= :startDate " +
+            "AND m.timestamp <= :endDate")
     List<MeasurementsEntity> getMeasurementsForSensorsAndBetweenDate(@Param("sensorIds") List<Long> sensorIds,
                                                                      @Param("startDate") Long startDate,
                                                                      @Param("endDate") Long endDate);

@@ -15,7 +15,7 @@ import java.io.Serializable;
 public class Ds18b20 implements Serializable {
 
     @JsonProperty("addr")
-    int romCode;
+    long romCode;
 
     //air temp
     @JsonProperty("temp")

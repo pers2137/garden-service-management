@@ -31,7 +31,7 @@ public class TestController {
     @PostMapping("/")
     public void test() {
 
-        mosquitoPublisher.sendMessageToTopic("register", "{\"ip\":285255872,\"mac\":\"333333\",\"sv\":0}");
+        mosquitoPublisher.sendMessageToTopic("register", "{\"ip\":285255872,\"mac\":\"dd333333\",\"sv\":0}");
 //        valvesRepository.save(ValvesEntity.builder()
 //                        .stationId(902L)
 //                        .pin(1)

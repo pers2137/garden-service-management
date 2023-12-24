@@ -25,18 +25,18 @@ public class MeasurementsController implements MeasurementsApi {
 
     @Override
     public ResponseEntity<MeasurementsDataResponse> getMeasurementsData(Long id, MeasurementsDataRequest request) {
-        var measurementsData = MeasurementsDataResponse.builder()
-                                                       .chartDataA(chartData())
-                                                       .chartDataB(null)
-                                                       .build();
+//        var measurementsData = MeasurementsDataResponse.builder()
+//                                                       .chartDataA(chartData())
+//                                                       .chartDataB(null)
+//                                                       .build();
 
-        return new ResponseEntity<>(measurementsData, HttpStatus.OK);
-//        return new ResponseEntity<>(measurementsService.getMeasurementsData(id, request), HttpStatus.OK);
+//        return new ResponseEntity<>(measurementsData, HttpStatus.OK);
+
+        return new ResponseEntity<>(measurementsService.getMeasurementsData(id, request), HttpStatus.OK);
 
     }
 
     private ChartData chartData() {
-
         return ChartData.builder()
                         .sensorData(sensorDataList())
                         .measurementType(MeasurementType.AIR_TEMP)
@@ -66,9 +66,9 @@ public class MeasurementsController implements MeasurementsApi {
                 )).build(),
                 SensorData.builder().sensorId("2").measurementsForSensorList(List.of(
                         MeasurementsForSensor.builder().value(-10.0).timestamp(1702000250000L).build(),
-                        MeasurementsForSensor.builder().value(-11.0).timestamp(1702011250000L).build(),
-                        MeasurementsForSensor.builder().value(-16.0).timestamp(1702106250000L).build(),
-                        MeasurementsForSensor.builder().value(-17.0).timestamp(1702116250000L).build()
+                        MeasurementsForSensor.builder().value(-11.0).timestamp(1702011260000L).build(),
+                        MeasurementsForSensor.builder().value(-16.0).timestamp(1702106270000L).build(),
+                        MeasurementsForSensor.builder().value(-17.0).timestamp(1702116280000L).build()
                 )).build(),
                 SensorData.builder().sensorId("3").measurementsForSensorList(List.of(
                         MeasurementsForSensor.builder().value(-2.0).timestamp(1702036250000L).build(),
@@ -76,15 +76,6 @@ public class MeasurementsController implements MeasurementsApi {
                         MeasurementsForSensor.builder().value(-4.0).timestamp(1702066250000L).build(),
                         MeasurementsForSensor.builder().value(-5.0).timestamp(1702086250000L).build()
                 )).build()
-//                ,
-//                SensorData.builder().sensorId("4").measurementsForSensorList(null).build(),
-//                SensorData.builder().sensorId("5").measurementsForSensorList(null).build(),
-//                SensorData.builder().sensorId("6").measurementsForSensorList(null).build(),
-//                SensorData.builder().sensorId("7").measurementsForSensorList(null).build(),
-//                SensorData.builder().sensorId("8").measurementsForSensorList(null).build(),
-//                SensorData.builder().sensorId("9").measurementsForSensorList(null).build(),
-//                SensorData.builder().sensorId("10").measurementsForSensorList(null).build(),
-//                SensorData.builder().sensorId("11").measurementsForSensorList(null).build()
         );
 
     }

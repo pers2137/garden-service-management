@@ -52,6 +52,7 @@ public class MosquittoDataProcessorImpl implements MosquittoDataProcessor {
         }
         var stationId = station.get().getId();
 
+        var timestamp = request.getTimestamp() * 1000;
         var sensorList = sensorProvider.getAllSensorsForStation(stationId);
         var measurementToSave = new ArrayList<MeasurementsEntity>();
 
@@ -59,7 +60,7 @@ public class MosquittoDataProcessorImpl implements MosquittoDataProcessor {
             AtomicLong counter = new AtomicLong(0);
             Arrays.stream(request.getAnalog())
                                  .forEach(it -> measurementToSave.add(analogMeasurementToEntity(it,
-                                                                                                request.getTimestamp(),
+                                                                                                timestamp,
                                                                                                 counter.getAndIncrement(),
                                                                                                 sensorList,
                                                                                                 stationId)));
@@ -67,10 +68,10 @@ public class MosquittoDataProcessorImpl implements MosquittoDataProcessor {
 
         if(request.getDth11() != null) {
             Arrays.stream(request.getDth11())
-                  .forEach(it -> measurementToSave.addAll(dth11MeasurementToEntity(it, request.getTimestamp(), sensorList.stream().filter(el -> el.getSensorType().equals(SensorType.DHT)).toList(), stationId)));
+                  .forEach(it -> measurementToSave.addAll(dth11MeasurementToEntity(it, timestamp, sensorList.stream().filter(el -> el.getSensorType().equals(SensorType.DHT)).toList(), stationId)));
         }
         if(request.getDs18b20() != null) {
-            Arrays.stream(request.getDs18b20()).forEach(it -> measurementToSave.add(dscosMeasurementToEntity(it, request.getTimestamp(), sensorList.stream().filter(el -> el.getSensorType().equals(SensorType.DS)).toList() , stationId)));
+            Arrays.stream(request.getDs18b20()).forEach(it -> measurementToSave.add(dscosMeasurementToEntity(it, timestamp, sensorList.stream().filter(el -> el.getSensorType().equals(SensorType.DS)).toList() , stationId)));
         }
         var measurementToSaveFiltered = measurementToSave.stream().filter(Objects::nonNull).toList();
         var sensorToUpdate = disableSensorWhenAreOff(measurementToSaveFiltered, sensorList.stream()

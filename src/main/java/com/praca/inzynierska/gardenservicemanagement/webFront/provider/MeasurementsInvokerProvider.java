@@ -56,10 +56,10 @@ public class MeasurementsInvokerProvider implements MeasurementsProvider {
                                       .build();
     }
     @Override
-    public List<MeasurementsEntity> getMeasurementsForSensors(List<Long> sensorId, LocalDateTime startDate, LocalDateTime endDate) {
+    public List<MeasurementsEntity> getMeasurementsForSensors(List<Long> sensorIds, LocalDateTime startDate, LocalDateTime endDate) {
         LocalDateTime startOfDate = startDate.with(ChronoField.NANO_OF_DAY, LocalTime.MIN.toNanoOfDay());
-        LocalDateTime endOfDate = startDate.with(ChronoField.NANO_OF_DAY, LocalTime.MAX.toNanoOfDay());
-        return measurementsRepository.getMeasurementsForSensorsAndBetweenDate(sensorId,
+        LocalDateTime endOfDate = endDate.with(ChronoField.NANO_OF_DAY, LocalTime.MAX.toNanoOfDay());
+        return measurementsRepository.getMeasurementsForSensorsAndBetweenDate(sensorIds,
                                                                               Timestamp.valueOf(startOfDate).getTime(),
                                                                               Timestamp.valueOf(endOfDate).getTime());
     }

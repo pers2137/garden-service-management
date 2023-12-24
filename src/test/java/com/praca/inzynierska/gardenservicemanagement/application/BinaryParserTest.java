@@ -14,10 +14,10 @@ public class BinaryParserTest {
 
     @Test
     void shouldConvertFromInt32ToIp() {
-        Assertions.assertEquals(BinaryParser.getIpAddressFromInt32(285255872L), "17.0.168.192");
-        Assertions.assertEquals(BinaryParser.getIpAddressFromInt32(385255872L), "22.246.137.192");
-        Assertions.assertEquals(BinaryParser.getIpAddressFromInt32(185255872L), "11.10.199.192");
-        Assertions.assertEquals(BinaryParser.getIpAddressFromInt32(-285255872L), "238.255.87.64");
+        Assertions.assertEquals(BinaryParser.getIpAddressFromInt32(285255872L), "192.168.0.17");
+        Assertions.assertEquals(BinaryParser.getIpAddressFromInt32(385255872L), "192.137.246.22");
+        Assertions.assertEquals(BinaryParser.getIpAddressFromInt32(185255872L), "192.199.10.11");
+        Assertions.assertEquals(BinaryParser.getIpAddressFromInt32(-285255872L), "64.87.255.238");
     }
 
     @Test
