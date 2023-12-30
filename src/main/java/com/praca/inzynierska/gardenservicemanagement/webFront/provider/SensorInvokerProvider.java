@@ -32,4 +32,12 @@ public class SensorInvokerProvider implements SensorProvider {
                                 .map(SensorMapper::toSensor)
                                 .toList();
     }
+
+    @Override
+    public List<Sensor> getAllForStationAndTypesAndAddress(Long stationId, List<SensorType> sensorTypes, List<Long> address) {
+        return sensorsRepository.findByStationIdAndSensorTypeInAndAddressIn(stationId, sensorTypes, address)
+                                .stream()
+                                .map(SensorMapper::toSensor)
+                                .toList();
+    }
 }

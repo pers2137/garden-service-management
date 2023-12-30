@@ -12,4 +12,5 @@ public interface StationService {
     StationSettingsResponse saveStationSettings(Long id, SaveSettingsRequest request);
 
     StationDetailsInformationResponse getStationInformationDetails(Long id);
+    StationSensorListResponse getStationSensorList(Long id);
 }

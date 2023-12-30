@@ -6,5 +6,5 @@ import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiMode
 import java.util.List;
 
 public interface StationUpdater {
-    List<ValvesEntity>  toUpdatedValvesList(List<ValvesEntity> valves, List<Valves> updatedValves, Long stationId);
+    List<ValvesEntity> toUpdatedValvesList(List<ValvesEntity> valves, List<Valves> updatedValves, Long stationId);
 }

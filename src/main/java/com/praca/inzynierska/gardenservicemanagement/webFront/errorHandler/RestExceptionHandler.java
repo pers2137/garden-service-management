@@ -1,7 +1,5 @@
 package com.praca.inzynierska.gardenservicemanagement.webFront.errorHandler;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.praca.inzynierska.gardenservicemanagement.webFront.errorHandler.exception.DefaultError;
 import com.praca.inzynierska.gardenservicemanagement.webFront.errorHandler.exception.ResponseException;
 import com.praca.inzynierska.gardenservicemanagement.webFront.errorHandler.exception.ResponseStatus;

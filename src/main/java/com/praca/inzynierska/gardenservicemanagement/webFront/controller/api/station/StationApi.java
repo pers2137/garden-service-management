@@ -39,4 +39,10 @@ public interface StationApi {
     @GetMapping(value = APP_ROOT + "/station/information/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<StationDetailsInformationResponse> getStationInformationDetails(@PathVariable Long id);
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "404", description = "station.not-found: Station not fond")}) //get/
+    @GetMapping(value = APP_ROOT + "/station/sensor/list/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<StationSensorListResponse> getStationSensorList(@PathVariable Long id);
+
+
 }

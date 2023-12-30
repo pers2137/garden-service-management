@@ -38,5 +38,10 @@ public class StationController implements StationApi {
         return new ResponseEntity<>(stationService.getStationInformationDetails(id), HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<StationSensorListResponse> getStationSensorList(Long id) {
+        return new ResponseEntity<>(stationService.getStationSensorList(id), HttpStatus.OK);
+    }
+
 
 }

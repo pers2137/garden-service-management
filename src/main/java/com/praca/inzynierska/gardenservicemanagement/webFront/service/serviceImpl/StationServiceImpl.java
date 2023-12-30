@@ -2,6 +2,7 @@ package com.praca.inzynierska.gardenservicemanagement.webFront.service.serviceIm
 
 import com.praca.inzynierska.gardenservicemanagement.common.DeviceConfigurationRequestMapper;
 import com.praca.inzynierska.gardenservicemanagement.datastore.schedules.SchedulesEntity;
+import com.praca.inzynierska.gardenservicemanagement.datastore.sensors.SensorType;
 import com.praca.inzynierska.gardenservicemanagement.datastore.stations.StationsEntity;
 import com.praca.inzynierska.gardenservicemanagement.datastore.valves.ValvesEntity;
 import com.praca.inzynierska.gardenservicemanagement.datastore.valves.ValvesRepository;
@@ -135,6 +136,28 @@ public class StationServiceImpl implements StationService {
                                                 .ds18b20InformationList(sensorsInformationObject.getDs18b20InformationList())
                                                 .dht11InformationList(sensorsInformationObject.getDht11InformationList())
                                                 .build();
+    }
+
+    @Override
+    public StationSensorListResponse getStationSensorList(Long id) {
+        var station = stationProvider.getStationById(id)
+                .orElseThrow(() -> new ResponseException("station.not-found", ResponseStatus.NOT_FOUND));
+
+        var sensorList = sensorProvider.getAllSensorsForStation(station.getId());
+        return  StationSensorListResponse.builder()
+                                         .sList(sensorList.stream().filter(it -> it.getSensorType().equals(SensorType.S))
+                                                                   .map(it -> it.getAddress().toString())
+                                                                   .toList())
+                                         .shList(sensorList.stream().filter(it -> it.getSensorType().equals(SensorType.SH))
+                                                 .map(it -> it.getAddress().toString())
+                                                 .toList())
+                                         .dsList(sensorList.stream().filter(it -> it.getSensorType().equals(SensorType.DS))
+                                                 .map(it -> it.getAddress().toString())
+                                                 .toList())
+                                         .dhtList(sensorList.stream().filter(it -> it.getSensorType().equals(SensorType.DHT))
+                                                 .map(it -> it.getAddress().toString())
+                                                 .toList())
+                                         .build();
     }
 
     private ValvesInformation toValvesInformation(final Valves valves) {
