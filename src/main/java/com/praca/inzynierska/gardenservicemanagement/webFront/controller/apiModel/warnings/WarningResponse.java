@@ -12,6 +12,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class WarningResponse {
+    Long warningId;
     String name;
     Criterion criterion;
     MeasurementType measurementType;

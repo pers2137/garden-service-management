@@ -6,4 +6,5 @@ public interface WarningsUpdater {
 
     Warning addNewWarnings(Warning warning);
 
+    void deleteWarningById(Long id);
 }

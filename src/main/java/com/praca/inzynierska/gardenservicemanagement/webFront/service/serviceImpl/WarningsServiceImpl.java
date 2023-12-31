@@ -94,8 +94,17 @@ public class WarningsServiceImpl implements WarningsService {
         return toStationWarningsListResponse(warningList, sensorHasWarningList, sensorList);
     }
 
+    @Override
+    @Transactional
+    public void deleteWarning(Long id) {
+        sensorHasWarningsUpdater.deleteByWarningId(id);
+        warningsUpdater.deleteWarningById(id);
+        log.info("Successfully deleted warnings with id: {}", id);
+    }
+
     private StationWarningsListResponse toStationWarningsListResponse(List<Warning> warningList, List<SensorHasWarningsEntity> sensorHasWarningList, List<Sensor> sensorList) {
         var warningResponseList = warningList.stream().map(it -> WarningResponse.builder()
+                                                                                .warningId(it.getId())
                                                                                 .name(it.getName())
                                                                                 .criterion(it.getCriterion())
                                                                                 .measurementType(it.getMeasurementType())

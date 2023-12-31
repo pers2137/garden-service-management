@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class WarningsInvokerUpdater implements WarningsUpdater{
+public class WarningsInvokerUpdater implements WarningsUpdater {
 
     @Autowired
     WarningsRepository warningsRepository;
@@ -16,5 +16,10 @@ public class WarningsInvokerUpdater implements WarningsUpdater{
     public Warning addNewWarnings(Warning warning) {
         var savedWarnings =  warningsRepository.save(WarningsMapper.toWarningsEntity(warning));
         return WarningsMapper.toWarnings(savedWarnings);
+    }
+
+    @Override
+    public void deleteWarningById(Long id) {
+        warningsRepository.deleteById(id);
     }
 }

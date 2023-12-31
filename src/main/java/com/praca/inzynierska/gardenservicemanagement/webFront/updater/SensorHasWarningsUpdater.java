@@ -8,4 +8,5 @@ public interface SensorHasWarningsUpdater {
 
     void addNewSensorHasWarnings(List<SensorHasWarningsEntity> sensorWarningsList);
 
+    void deleteByWarningId(Long id);
 }

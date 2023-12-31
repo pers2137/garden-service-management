@@ -36,12 +36,10 @@ public class MosquittoDataListener {
             String stringRequest = new String(mqttMessage.getPayload());
             log.info("Received register request: {}", stringRequest);
 
-//            Gson gsonParser = new Gson();
             ObjectMapper objectMapper = new ObjectMapper();
             MosquittoDataRequest request;
             try {
                 request = objectMapper.readValue(stringRequest, MosquittoDataRequest.class);
-//                 request = gsonParser.fromJson(stringRequest, MosquittoDataRequest.class);
             } catch (Exception e) {
                 log.error("dataListener - Parser error !");
                 log.error(e.toString());

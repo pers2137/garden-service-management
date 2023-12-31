@@ -37,13 +37,11 @@ public class MosquittoRegisterListener {
             String stringRequest = new String(mqttMessage.getPayload());
             log.info("Received register request: {}", stringRequest);
 
-//            Gson gsonParser = new Gson();
             ObjectMapper objectMapper = new ObjectMapper();
             MosquittoRegisterRequest request;
 
             try {
                 request = objectMapper.readValue(stringRequest, MosquittoRegisterRequest.class);
-//                 request = gsonParser.fromJson(stringRequest, MosquittoRegisterRequest.class);
             } catch (Exception e) {
                 log.error("registerListener - Parser error!");
                 e.printStackTrace();
@@ -65,20 +63,5 @@ public class MosquittoRegisterListener {
         }
     }
 
-//    private DeviceConfigurationRequest prepareDefaultStationConfiguration() {
-//        var deviceConf = DeviceConfigurationRequest.builder();
-//        deviceConf.measurementPeriod(1)
-//                  .valves(initValuesForNewDevice())
-//                  .build();
-//        return deviceConf.build();
-//    }
-//
-//    private MosquitoConfigValves[] initValuesForNewDevice() {
-//        var valuesTab = new MosquitoConfigValves[16];
-//        for(int i=0;i<16;i++) {
-//            valuesTab[i] = DefaultValves.defaultConfiguration(i);
-//        }
-//        return valuesTab;
-//    }
 
 }

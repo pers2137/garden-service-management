@@ -26,4 +26,9 @@ public class WarningsController implements WarningsApi {
     public ResponseEntity<StationWarningsListResponse> getWarningsForStations(Long id) {
         return new ResponseEntity<>(warningsService.getWarningsForStation(id), HttpStatus.OK);
     }
+
+    @Override
+    public void deleteWarning(Long id) {
+        warningsService.deleteWarning(id);
+    }
 }

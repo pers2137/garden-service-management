@@ -24,14 +24,19 @@ public class TestController {
 
     @PostMapping("/dwa")
     public void test2() {
-        String message = "{\"mac\":\"333333\",\"timestamp\":1702335645000,\"analog\":[2600,2961,4900,5400,1300,1250,1111,1999,2020,2200,2500,1600,2800,2900,2333,2444,3050,3333,3400,3500,3600,3700,3800,3900,100,300,400,500,4100,4200,4300,4400],\"dht11\":[{\"line\":2,\"temp\":23.4,\"hum\":44},{\"line\":6,\"temp\":17,\"hum\":40}],\"ds18b20\":[{\"addr\":123412341,\"temp\":23.3}]}";
+        String message = "{\"timestamp\":1703760907,\"mac\":\"C0-49-EF-6B-F4-2C\",\"analog\":[48,48,48,48,48,48,2345,48,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,1882,45],\"dht11\":[{\"line\":3,\"temp\":17.8,\"hum\":53.0}],\"ds18b20\":[{\"addr\":319361830773288,\"temp\":18.00},{\"addr\":319360827203880,\"temp\":20.69}]}";
         mosquitoPublisher.sendMessageToTopic("data", message);
     }
 
     @PostMapping("/")
     public void test() {
 
-        mosquitoPublisher.sendMessageToTopic("register", "{\"ip\":285255872,\"mac\":\"dd333333\",\"sv\":0}");
+
+        String message = "{\"timestamp\":1703761027,\"mac\":\"C0-49-EF-6B-F4-2C\",\"analog\":[48,48,48,48,48,48,2391,48,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,46,45,45,45,45,1883,45],\"dht11\":[{\"line\":3,\"temp\":18.2,\"hum\":54.0}],\"ds18b20\":[{\"addr\":319361830773288,\"temp\":25.00},{\"addr\":319360827203880,\"temp\":25.56}]}";
+        mosquitoPublisher.sendMessageToTopic("data", message);
+
+
+//        mosquitoPublisher.sendMessageToTopic("register", "{\"ip\":285255872,\"mac\":\"dd333333\",\"sv\":0}");
 //        valvesRepository.save(ValvesEntity.builder()
 //                        .stationId(902L)
 //                        .pin(1)

@@ -1,22 +1,32 @@
 package com.praca.inzynierska.gardenservicemanagement.mosquitto.listener.data.services;
 
 
+import com.praca.inzynierska.gardenservicemanagement.common.WarningsOccursResolver;
+import com.praca.inzynierska.gardenservicemanagement.common.model.WarningAndErrorSensors;
 import com.praca.inzynierska.gardenservicemanagement.datastore.measurements.MeasurementType;
 import com.praca.inzynierska.gardenservicemanagement.datastore.measurements.MeasurementsEntity;
 import com.praca.inzynierska.gardenservicemanagement.datastore.measurements.MeasurementsRepository;
+import com.praca.inzynierska.gardenservicemanagement.datastore.sensorHasWarnings.SensorHasWarningsEntity;
+import com.praca.inzynierska.gardenservicemanagement.datastore.sensorHasWarningsOccurres.SensorHasWarningsOccurrenceEntity;
+import com.praca.inzynierska.gardenservicemanagement.datastore.sensorHasWarningsOccurres.SensorWarningsOccurrencesId;
 import com.praca.inzynierska.gardenservicemanagement.datastore.sensors.SensorType;
 import com.praca.inzynierska.gardenservicemanagement.datastore.sensors.model.Sensor;
 import com.praca.inzynierska.gardenservicemanagement.datastore.stations.StationsRepository;
+import com.praca.inzynierska.gardenservicemanagement.datastore.warnings.model.Warning;
+import com.praca.inzynierska.gardenservicemanagement.datastore.warningsOccurrences.WarningsOccurrencesEntity;
 import com.praca.inzynierska.gardenservicemanagement.mosquitto.listener.data.model.*;
+import com.praca.inzynierska.gardenservicemanagement.webFront.provider.SensorHasWarningProvider;
 import com.praca.inzynierska.gardenservicemanagement.webFront.provider.SensorProvider;
+import com.praca.inzynierska.gardenservicemanagement.webFront.provider.WarningsProvider;
+import com.praca.inzynierska.gardenservicemanagement.webFront.updater.SensorHasWarningsOccurrencesInvokerUpdater;
 import com.praca.inzynierska.gardenservicemanagement.webFront.updater.SensorUpdater;
+import com.praca.inzynierska.gardenservicemanagement.webFront.updater.WarningsOccurrencesUpdater;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
@@ -29,16 +39,28 @@ public class MosquittoDataProcessorImpl implements MosquittoDataProcessor {
     private final StationsRepository stationsRepository;
     private final SensorProvider sensorProvider;
     private final SensorUpdater sensorUpdater;
+    private final WarningsProvider warningsProvider;
+    private final SensorHasWarningProvider sensorHasWarningProvider;
+    private final WarningsOccurrencesUpdater warningsOccurrencesUpdater;
+    private final  SensorHasWarningsOccurrencesInvokerUpdater sensorHasWarningsOccurrencesInvokerUpdater;
 
     @Autowired
     public MosquittoDataProcessorImpl(StationsRepository stationsRepository,
                                       MeasurementsRepository measurementsRepository,
                                       SensorProvider sensorProvider,
-                                      SensorUpdater sensorUpdater) {
+                                      SensorUpdater sensorUpdater,
+                                      WarningsProvider warningsProvider,
+                                      SensorHasWarningProvider sensorHasWarningProvider,
+                                      SensorHasWarningsOccurrencesInvokerUpdater sensorHasWarningsOccurrencesInvokerUpdater,
+                                      WarningsOccurrencesUpdater warningsOccurrencesUpdater) {
         this.measurementsRepository = measurementsRepository;
         this.stationsRepository = stationsRepository;
         this.sensorProvider = sensorProvider;
         this.sensorUpdater = sensorUpdater;
+        this.warningsProvider = warningsProvider;
+        this.sensorHasWarningProvider = sensorHasWarningProvider;
+        this.warningsOccurrencesUpdater = warningsOccurrencesUpdater;
+        this.sensorHasWarningsOccurrencesInvokerUpdater = sensorHasWarningsOccurrencesInvokerUpdater;
     }
 
     @Override
@@ -78,11 +100,42 @@ public class MosquittoDataProcessorImpl implements MosquittoDataProcessor {
                                                                                   .filter(it -> it.getSensorType().equals(SensorType.DHT) ||
                                                                                                 it.getSensorType().equals(SensorType.DS))
                                                                                   .collect(Collectors.toList()));
+
+        var sensorHasWarningList = sensorHasWarningProvider.getAllForSensors(sensorList.stream().map(Sensor::getId).toList());
+        var warningIds = sensorHasWarningList.stream().map(it -> it.getId().getWarningsId()).collect(Collectors.toSet());
+
+        var warningsList = warningsProvider.getAllWarningsForIds(warningIds.stream().toList());
+
         sensorUpdater.updateAllSensor(sensorToUpdate);
         measurementsRepository.saveAll(measurementToSaveFiltered);
+
+        var newWarningOccurList = WarningsOccursResolver.resolveWarningOccur(warningsList, sensorHasWarningList, measurementToSaveFiltered);
+        var savedWarningOccuresList = warningsOccurrencesUpdater.saveAll(newWarningOccurList.stream()
+                                                                                            .map(WarningAndErrorSensors::getWarningsOccurrencesEntity)
+                                                                                            .toList());
+        var sensorWarningsOccursList = makeSensorWarningsOccursList(newWarningOccurList, savedWarningOccuresList);
+
+        sensorHasWarningsOccurrencesInvokerUpdater.saveAll(sensorWarningsOccursList);
+
         log.info("Saved all measurements from device {}", macAddress);
 
     }
+
+    private List<SensorHasWarningsOccurrenceEntity> makeSensorWarningsOccursList(List<WarningAndErrorSensors> newWarningOccurList, List<WarningsOccurrencesEntity> savedWarningOccuresList) {
+        return newWarningOccurList.stream().map(it -> toSensorHasWarningsOccursList(it, savedWarningOccuresList))
+                                           .flatMap(Collection::stream)
+                                           .toList();
+    }
+
+    private List<SensorHasWarningsOccurrenceEntity> toSensorHasWarningsOccursList(WarningAndErrorSensors element, List<WarningsOccurrencesEntity> savedWarningOccuresList) {
+        var idToSave = savedWarningOccuresList.stream().filter(it -> it.getWarningsId().equals(element.getWarningsOccurrencesEntity().getWarningsId())).findFirst().get();
+        return element.getSensorLink().stream().map( it -> SensorHasWarningsOccurrenceEntity.builder()
+                                                                                            .id(SensorWarningsOccurrencesId.builder()
+                                                                                                                           .warningsOccurrenceId(idToSave.getId())
+                                                                                                                           .sensorId(it)
+                                                                                                                           .build()).build()).toList();
+    }
+
 
     private List<Sensor> disableSensorWhenAreOff(List<MeasurementsEntity> measurementToSave, List<Sensor> sensorList) {
         var sensorToUpdate = new ArrayList<Sensor>();

@@ -8,4 +8,6 @@ public interface WarningsService {
     void addNewWarnings(WarningsAddRequest request);
 
     StationWarningsListResponse getWarningsForStation(Long id);
+
+    void deleteWarning(Long id);
 }

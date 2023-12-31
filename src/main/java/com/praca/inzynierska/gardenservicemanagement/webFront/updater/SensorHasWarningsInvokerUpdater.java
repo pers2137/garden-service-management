@@ -13,9 +13,13 @@ public class SensorHasWarningsInvokerUpdater implements SensorHasWarningsUpdater
     @Autowired
     private SensorHasWarningsRepository sensorHasWarningsRepository;
 
-
     @Override
     public void addNewSensorHasWarnings(List<SensorHasWarningsEntity> sensorWarningsList) {
         sensorHasWarningsRepository.saveAll(sensorWarningsList);
+    }
+
+    @Override
+    public void deleteByWarningId(Long id) {
+        sensorHasWarningsRepository.deleteByWarningId(id);
     }
 }
