@@ -10,15 +10,14 @@ import java.util.Collections;
 
 public class DefaultValves {
 
-    @Value("${app.valves.default.operationMode}")
-    private String operationMode;
+//TODO -> ZROBIENIE TEOG NA PARAMETRACH BO COŚ NIE DZIAŁA.
+//    @Value("${app.valves.default.operationMode}")
+//    private String operationMode;
+//
+//    @Value("${app.valves.default.enableHigh}")
+//    private int enableHigh;
 
-    @Value("${app.valves.default.enableHigh}")
-    private int enableHigh;
 
-
-    //TODO -> ZROBIENIE TEGO POLA NA PARAMETRZE oba cos nie działają parametry value
-    // OperationMode.valueOf(operationMode).value
     public static MosquitoConfigValves defaultConfiguration(final int pin) {
         return new MosquitoConfigValves(pin, OperationMode.OFF.value, 1, null);
     }

@@ -68,7 +68,6 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public StationInformationResponse getStationInformation(Long id) {
-        //TODO -> INFO TAKIE STACJA NIE ISTNIEJE + DODAĆ DO API
         var station = stationProvider.getStationById(id)
                                      .orElseThrow(() -> new ResponseException("station.not-found", ResponseStatus.NOT_FOUND));
 
