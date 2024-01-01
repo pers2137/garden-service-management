@@ -5,6 +5,7 @@ import com.praca.inzynierska.gardenservicemanagement.datastore.warnings.model.Wa
 public interface WarningsUpdater {
 
     Warning addNewWarnings(Warning warning);
+    Warning updateWarnings(Warning warning);
 
     void deleteWarningById(Long id);
 }

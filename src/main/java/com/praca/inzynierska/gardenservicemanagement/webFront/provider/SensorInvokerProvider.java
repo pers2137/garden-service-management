@@ -40,4 +40,11 @@ public class SensorInvokerProvider implements SensorProvider {
                                 .map(SensorMapper::toSensor)
                                 .toList();
     }
+
+    @Override
+    public List<Sensor> getSensorsByIds(List<Long> ids) {
+        return sensorsRepository.findAllById(ids).stream()
+                                                 .map(SensorMapper::toSensor)
+                                                 .toList();
+    }
 }

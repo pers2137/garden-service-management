@@ -14,7 +14,13 @@ public class WarningsInvokerUpdater implements WarningsUpdater {
 
     @Override
     public Warning addNewWarnings(Warning warning) {
-        var savedWarnings =  warningsRepository.save(WarningsMapper.toWarningsEntity(warning));
+        var savedWarnings = warningsRepository.save(WarningsMapper.toWarningsEntity(warning));
+        return WarningsMapper.toWarnings(savedWarnings);
+    }
+
+    @Override
+    public Warning updateWarnings(Warning warning) {
+        var savedWarnings = warningsRepository.save(WarningsMapper.toWarningsEntity(warning));
         return WarningsMapper.toWarnings(savedWarnings);
     }
 

@@ -10,5 +10,6 @@ public interface SensorProvider {
     List<Sensor> getAllSensorsForStation(Long stationId);
     List<Sensor> getAllForStationAndType(Long stationId, SensorType sensorType);
     List<Sensor> getAllForStationAndTypesAndAddress(Long stationId, List<SensorType> sensorTypes, List<Long> address);
+    List<Sensor> getSensorsByIds(List<Long> ids);
 
 }

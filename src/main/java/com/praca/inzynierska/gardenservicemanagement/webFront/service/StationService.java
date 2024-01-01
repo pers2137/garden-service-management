@@ -13,4 +13,6 @@ public interface StationService {
 
     StationDetailsInformationResponse getStationInformationDetails(Long id);
     StationSensorListResponse getStationSensorList(Long id);
+
+    StationDetailsInformationResponse getStationInformationBasic(Long id);
 }

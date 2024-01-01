@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -25,5 +26,10 @@ public class WarningsInvokerProvider implements WarningsProvider{
         return warningsRepository.findByIdIn(warningsIds).stream()
                                                          .map(WarningsMapper::toWarnings)
                                                          .toList();
+    }
+
+    @Override
+    public Optional<Warning> getWarningById(Long id) {
+        return warningsRepository.findById(id).map(WarningsMapper::toWarnings);
     }
 }

@@ -8,16 +8,16 @@ import lombok.Data;
 
 import java.util.List;
 
-@Data
 @Builder
+@Data
 @AllArgsConstructor
-public class WarningResponse {
-    Long warningId;
-    String name;
-    Criterion criterion;
+public class WarningDetailResponse {
+
+    String stationName;
+    String normName;
     MeasurementType measurementType;
-    Long thresholdValue;
+    Criterion criterion;
+    Long threshold;
     Boolean belowThreshold;
-    List<Long> sensorAddressList;
-    List<WarningInformation> warningInformationList;
+    List<String> sensorAddress;
 }

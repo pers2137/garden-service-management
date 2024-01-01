@@ -8,4 +8,6 @@ public interface SensorHasWarningProvider {
 
     List<SensorHasWarningsEntity> getAllForSensors(List<Long> sensorIds);
 
+    List<SensorHasWarningsEntity> getAllSensorIdByWarningId(Long warningId);
+
 }

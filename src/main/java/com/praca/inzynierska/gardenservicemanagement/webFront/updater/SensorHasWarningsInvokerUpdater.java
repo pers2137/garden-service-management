@@ -22,4 +22,9 @@ public class SensorHasWarningsInvokerUpdater implements SensorHasWarningsUpdater
     public void deleteByWarningId(Long id) {
         sensorHasWarningsRepository.deleteByWarningId(id);
     }
+
+    @Override
+    public void deleteByWarningIdAndSensorsIds(List<Long> list, Long warningId) {
+        sensorHasWarningsRepository.deleteByWarningIdAndSensorsIds(list, warningId);
+    }
 }

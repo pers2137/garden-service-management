@@ -160,6 +160,20 @@ public class StationServiceImpl implements StationService {
                                          .build();
     }
 
+    @Override
+    public StationDetailsInformationResponse getStationInformationBasic(Long id) {
+        var station = stationProvider.getStationById(id)
+                .orElseThrow(() -> new ResponseException("station.not-found", ResponseStatus.NOT_FOUND));
+
+        return StationDetailsInformationResponse.builder()
+                                                .stationName(station.getName())
+                                                .addressMac(station.getMacAddress())
+                                                .systemVersion(station.getSoftwareVersion())
+                                                .addressMac(station.getMacAddress())
+                                                .addressIp(station.getIpAddress())
+                                                .build();
+    }
+
     private ValvesInformation toValvesInformation(final Valves valves) {
         return ValvesInformation.builder()
                                 .pin(valves.getPin())

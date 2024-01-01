@@ -24,4 +24,9 @@ public class SensorHasWarningInvokerProvider implements SensorHasWarningProvider
     public List<SensorHasWarningsEntity> getAllForSensors(List<Long> sensorIds) {
         return sensorHasWarningsRepository.findByIdSensorIdIn(sensorIds);
     }
+
+    @Override
+    public List<SensorHasWarningsEntity> getAllSensorIdByWarningId(Long warningId) {
+        return sensorHasWarningsRepository.findByIdWarningId(warningId);
+    }
 }

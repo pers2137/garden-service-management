@@ -18,5 +18,14 @@ public interface SensorHasWarningsRepository extends JpaRepository<SensorHasWarn
     @Query("DELETE FROM SensorHasWarningsEntity w WHERE w.id.warningsId=:id")
     void deleteByWarningId(@Param("id") Long id);
 
+    @Query("SELECT w FROM SensorHasWarningsEntity w " +
+            "WHERE w.id.warningsId= :warningId ")
+    List<SensorHasWarningsEntity> findByIdWarningId(@Param("warningId") Long warningId);
 
+
+    @Modifying
+    @Query("DELETE FROM SensorHasWarningsEntity w " +
+            "WHERE w.id.warningsId=:warningId " +
+              "AND w.id.sensorId IN :sensorIds")
+    void deleteByWarningIdAndSensorsIds(@Param("sensorIds") List<Long> sensorIds, @Param("warningId") Long warningId);
 }
