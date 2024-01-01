@@ -40,7 +40,7 @@ public class TestController {
     public void test() {
 
 
-        String message = "{\"timestamp\":1704060534,\"mac\":\"C0-49-EF-6B-F4-2C\",\"analog\":[48,48,48,48,48,48,1710,48,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,1499,45],\"dht11\":[{\"line\":3,\"temp\":17.0,\"hum\":52.0}],\"ds18b20\":[{\"addr\":319361830773288,\"temp\":17.56},{\"addr\":319360827203880,\"temp\":17.50}]}";
+//        String message = "{\"timestamp\":1704060534,\"mac\":\"C0-49-EF-6B-F4-2C\",\"analog\":[48,48,48,48,48,48,1710,48,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,1499,45],\"dht11\":[{\"line\":3,\"temp\":17.0,\"hum\":52.0}],\"ds18b20\":[{\"addr\":319361830773288,\"temp\":17.56},{\"addr\":319360827203880,\"temp\":17.50}]}";
 //        String message2 = "{\"timestamp\":1703782127,\"mac\":\"C0-49-EF-6B-F4-2C\",\"analog\":[48,48,48,48,48,48,1710,48,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,1499,45],\"dht11\":[{\"line\":3,\"temp\":17.0,\"hum\":52.0}],\"ds18b20\":[{\"addr\":319361830773288,\"temp\":17.56},{\"addr\":319360827203880,\"temp\":17.50}]}";
 //        String message2 = "{\"timestamp\":1703766727,\"mac\":\"C0-49-EF-6B-F4-2C\",\"analog\":[48,48,48,48,48,48,1714,48,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,1501,46],\"dht11\":[{\"line\":3,\"temp\":17.0,\"hum\":52.0}],\"ds18b20\":[{\"addr\":319361830773288,\"temp\":17.50},{\"addr\":319360827203880,\"temp\":17.44}]}";
 //        String message3 = "{\"timestamp\":1703767027,\"mac\":\"C0-49-EF-6B-F4-2C\",\"analog\":[48,48,48,48,48,48,1719,48,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,46,45,46,46,46,46,1503,46],\"dht11\":[{\"line\":3,\"temp\":17.0,\"hum\":53.0}],\"ds18b20\":[{\"addr\":319361830773288,\"temp\":17.50},{\"addr\":319360827203880,\"temp\":17.44}]}";
@@ -50,7 +50,7 @@ public class TestController {
 //        String message7 = "{\"timestamp\":1703768227,\"mac\":\"C0-49-EF-6B-F4-2C\",\"analog\":[48,48,48,48,48,48,1733,48,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,1508,46],\"dht11\":[{\"line\":3,\"temp\":16.6,\"hum\":54.0}],\"ds18b20\":[{\"addr\":319361830773288,\"temp\":17.38},{\"addr\":319360827203880,\"temp\":17.31}]}";
 //        String message8 = "{\"timestamp\":1703768527,\"mac\":\"C0-49-EF-6B-F4-2C\",\"analog\":[48,48,48,48,48,48,1737,48,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,46,45,45,1510,46],\"dht11\":[{\"line\":3,\"temp\":16.6,\"hum\":54.0}],\"ds18b20\":[{\"addr\":319361830773288,\"temp\":17.38},{\"addr\":319360827203880,\"temp\":17.25}]}";
 //        String message9 = "{\"timestamp\":1703769127,\"mac\":\"C0-49-EF-6B-F4-2C\",\"analog\":[48,48,48,48,48,48,1692,48,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,1509,46],\"dht11\":[{\"line\":3,\"temp\":17.4,\"hum\":56.0}],\"ds18b20\":[{\"addr\":319361830773288,\"temp\":17.81},{\"addr\":319360827203880,\"temp\":17.69}]}";
-        mosquitoPublisher.sendMessageToTopic("data", message);
+//        mosquitoPublisher.sendMessageToTopic("data", message);
 //        mosquitoPublisher.sendMessageToTopic("data", message2);
 //        mosquitoPublisher.sendMessageToTopic("data", message3);
 //        mosquitoPublisher.sendMessageToTopic("data", message4);
@@ -61,7 +61,7 @@ public class TestController {
 //        mosquitoPublisher.sendMessageToTopic("data", message9);
 
 
-//        mosquitoPublisher.sendMessageToTopic("register", "{\"ip\":285255872,\"mac\":\"dd333333\",\"sv\":0}");
+        mosquitoPublisher.sendMessageToTopic("register", "{\"ip\":285255872,\"mac\":\"dd333333\",\"sv\":0}");
 //        valvesRepository.save(ValvesEntity.builder()
 //                        .stationId(902L)
 //                        .pin(1)

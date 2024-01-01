@@ -13,11 +13,11 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 @Builder
-@Table(name = "USER")
+@Table(name = "USERS")
 public class UserEntity implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "USER_NAME", unique = true)

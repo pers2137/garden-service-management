@@ -17,7 +17,7 @@ spring:
         format_sql: true
         default_schema: garden
     hibernate:
-      ddl-auto: update #(create-drop, update, create, validate)
+      ddl-auto: update #(create-drop, update, create, validate, create-only)
     show-sql: false #true
   jackson:
     default-property-inclusion: NON_NULL
