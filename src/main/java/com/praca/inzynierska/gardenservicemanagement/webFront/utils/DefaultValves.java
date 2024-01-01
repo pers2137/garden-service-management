@@ -22,7 +22,6 @@ public class DefaultValves {
         return new MosquitoConfigValves(pin, OperationMode.OFF.value, 1, null);
     }
 
-    // OperationMode.valueOf(operationMode)
     public static Valves defaultValvesForWWW(final int pin) {
         return new Valves(pin, OperationMode.OFF, true, Collections.emptyList());
     }

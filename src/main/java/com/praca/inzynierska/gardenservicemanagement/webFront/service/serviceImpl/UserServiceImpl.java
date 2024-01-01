@@ -1,10 +1,9 @@
 package com.praca.inzynierska.gardenservicemanagement.webFront.service.serviceImpl;
 
-import com.praca.inzynierska.gardenservicemanagement.datastore.user.UserEntity;
+
 import com.praca.inzynierska.gardenservicemanagement.datastore.user.UserRepository;
 import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.auth.LoginRequest;
 import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.auth.LoginResponse;
-import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.auth.RegisterRequest;
 import com.praca.inzynierska.gardenservicemanagement.webFront.errorHandler.exception.ResponseException;
 import com.praca.inzynierska.gardenservicemanagement.webFront.errorHandler.exception.ResponseStatus;
 import com.praca.inzynierska.gardenservicemanagement.webFront.service.UserService;
@@ -36,8 +35,4 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    @Override
-    public void create(RegisterRequest request) {
-        userRepository.save(new UserEntity(null, request.getUserName(), request.getPassword()));
-    }
 }

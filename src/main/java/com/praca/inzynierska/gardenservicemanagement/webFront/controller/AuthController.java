@@ -3,7 +3,6 @@ package com.praca.inzynierska.gardenservicemanagement.webFront.controller;
 import com.praca.inzynierska.gardenservicemanagement.webFront.controller.api.auth.AuthApi;
 import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.auth.LoginRequest;
 import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.auth.LoginResponse;
-import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.auth.RegisterRequest;
 import com.praca.inzynierska.gardenservicemanagement.webFront.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,11 +21,5 @@ public class AuthController implements AuthApi {
     public ResponseEntity<LoginResponse> loginUser(LoginRequest request) {
         return new ResponseEntity<>(userService.login(request), HttpStatus.OK);
     }
-
-//    @Override
-//    public ResponseEntity<Void> createUser(RegisterRequest request) {
-//        userService.create(request);
-//        return ResponseEntity.ok().body(null);
-//    }
 
 }

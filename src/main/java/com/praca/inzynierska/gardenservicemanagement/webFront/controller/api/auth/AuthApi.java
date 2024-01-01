@@ -2,7 +2,6 @@ package com.praca.inzynierska.gardenservicemanagement.webFront.controller.api.au
 
 import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.auth.LoginRequest;
 import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.auth.LoginResponse;
-import com.praca.inzynierska.gardenservicemanagement.webFront.controller.apiModel.auth.RegisterRequest;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,6 +21,4 @@ public interface AuthApi {
     @PostMapping(value = APP_ROOT + "/auth/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<LoginResponse> loginUser(@RequestBody LoginRequest request);
 
-//    @PostMapping(value = APP_ROOT + "/auth/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-//    ResponseEntity<Void> createUser(@RequestBody RegisterRequest request);
 }

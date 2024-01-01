@@ -5,8 +5,10 @@ import com.praca.inzynierska.gardenservicemanagement.datastore.user.UserReposito
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
+@Profile("!test")
 public class StartupConfiguration {
 
     @Bean
