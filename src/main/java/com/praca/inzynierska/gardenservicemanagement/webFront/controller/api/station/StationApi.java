@@ -16,7 +16,7 @@ import static com.praca.inzynierska.gardenservicemanagement.webFront.utils.Const
 @Tag(name = "Station", description = "Station controller")
 public interface StationApi {
 
-    @GetMapping(value = APP_ROOT + "/station/get/list", produces = MediaType.APPLICATION_JSON_VALUE) //get/
+    @GetMapping(value = APP_ROOT + "/station/list", produces = MediaType.APPLICATION_JSON_VALUE) //get/
     ResponseEntity<StationListResponse> getStationList();
 
 //    @ApiResponses(value = {
@@ -26,27 +26,27 @@ public interface StationApi {
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "station.not-found: Station not fond")})
-    @GetMapping(value = APP_ROOT + "/station/settings/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE) //get/
+    @GetMapping(value = APP_ROOT + "/station/{id}/settings", produces = MediaType.APPLICATION_JSON_VALUE) //get/
     ResponseEntity<StationSettingsResponse> getStationSettings(@PathVariable Long id);
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "station.not-found: Station not fond")})
-    @PostMapping(value = APP_ROOT + "/station/settings/{id}/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = APP_ROOT + "/station/{id}/settings/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<StationSettingsResponse> saveStationSettings(@PathVariable Long id, @RequestBody SaveSettingsRequest request);
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "station.not-found: Station not fond")}) //get/
-    @GetMapping(value = APP_ROOT + "/station/details/information/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = APP_ROOT + "/station/{id}/details/information", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<StationDetailsInformationResponse> getStationInformationDetails(@PathVariable Long id);
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "station.not-found: Station not fond")}) //get/
-    @GetMapping(value = APP_ROOT + "/station/sensor/list/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = APP_ROOT + "/station/{id}/sensor/list", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<StationSensorListResponse> getStationSensorList(@PathVariable Long id);
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "station.not-found: Station not fond")}) //get/
-    @GetMapping(value = APP_ROOT + "/station/basic/information/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = APP_ROOT + "/station/{id}/basic/information", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<StationDetailsInformationResponse> getStationBasicInformation(@PathVariable Long id);
 
 }

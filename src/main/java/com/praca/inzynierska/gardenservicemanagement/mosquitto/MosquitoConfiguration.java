@@ -9,12 +9,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MosquitoConfiguration {
 
-    @Value("${mosquitto.username}")
-    String userName;
-
-    @Value("${mosquitto.password}")
-    String password;
-
     @Value("${mosquitto.broker.host}")
     String host;
 
@@ -30,8 +24,6 @@ public class MosquitoConfiguration {
             MqttClient client = new MqttClient(broker, clientId, new MemoryPersistence());
 
             MqttConnectOptions options = new MqttConnectOptions();
-//            options.setUserName(username);
-//            options.setPassword(password.toCharArray());
             options.setConnectionTimeout(60);
             options.setKeepAliveInterval(60);
 

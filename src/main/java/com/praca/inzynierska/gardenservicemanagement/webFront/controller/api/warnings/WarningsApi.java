@@ -19,7 +19,7 @@ public interface WarningsApi {
     @PostMapping(value = APP_ROOT + "/warnings/add", consumes = MediaType.APPLICATION_JSON_VALUE)
     void saveNewWarnings(@RequestBody WarningsAddRequest request);
 
-    @DeleteMapping(value = APP_ROOT + "/warnings/delete/{id}")
+    @DeleteMapping(value = APP_ROOT + "/warnings/{id}")
     void deleteWarning(@PathVariable Long id);
 
     @ApiResponses(value = {

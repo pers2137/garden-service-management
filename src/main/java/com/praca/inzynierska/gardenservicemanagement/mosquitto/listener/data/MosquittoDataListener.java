@@ -1,9 +1,6 @@
 package com.praca.inzynierska.gardenservicemanagement.mosquitto.listener.data;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import com.praca.inzynierska.gardenservicemanagement.common.BinaryParser;
 import com.praca.inzynierska.gardenservicemanagement.mosquitto.listener.data.model.MosquittoDataRequest;
 import com.praca.inzynierska.gardenservicemanagement.mosquitto.listener.data.services.MosquittoDataProcessor;
 import lombok.extern.slf4j.Slf4j;

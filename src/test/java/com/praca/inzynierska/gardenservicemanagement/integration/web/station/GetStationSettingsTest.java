@@ -64,7 +64,7 @@ public class GetStationSettingsTest {
         prepareDatabaseData(savedStation.getId());
 
         //THEN
-        mvc.perform(get(String.format("/api/station/settings/get/%d", savedStation.getId()))
+        mvc.perform(get(String.format("/api/station/%d/settings", savedStation.getId()))
                         .contentType(MediaType.APPLICATION_JSON))
                         .andExpect(status().isOk())
                         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -88,7 +88,7 @@ public class GetStationSettingsTest {
 
     @Test
     void shouldReturn404codeWhenStationNotExist() throws Exception {
-        mvc.perform(get(String.format("/api/station/settings/get/%d", 999))
+        mvc.perform(get(String.format("/api/station/%d/settings", 999))
                         .contentType(MediaType.APPLICATION_JSON))
                         .andExpect(status().isNotFound());
     }

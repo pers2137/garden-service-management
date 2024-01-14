@@ -45,7 +45,7 @@ public class GetStationListTest {
         stationsRepository.save(StationStub.stationsEntityStub());
         stationsRepository.save(StationStub.stationsEntityStub());
 
-        mvc.perform(get("/api/station/get/list")
+        mvc.perform(get("/api/station/list")
                         .contentType(MediaType.APPLICATION_JSON))
                         .andExpect(status().isOk())
                         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -55,7 +55,7 @@ public class GetStationListTest {
 
     @Test
     void shouldReturnEmptyListWhenStationNotExist() throws Exception {
-        mvc.perform(get("/api/station/get/list")
+        mvc.perform(get("/api/station/list")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))

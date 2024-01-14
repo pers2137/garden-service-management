@@ -1,8 +1,6 @@
 package com.praca.inzynierska.gardenservicemanagement.mosquitto.publisher;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 
 import com.praca.inzynierska.gardenservicemanagement.mosquitto.publisher.model.DeviceConfigurationRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +21,6 @@ public class MosquittoPublisherProcessorImpl implements MosquittoPublisherProces
     @Override
     public void sendConfigurationMessage(String topic, DeviceConfigurationRequest response) {
         MqttMessage mqttMessage = new MqttMessage();
-//        Gson g = new Gson();
-//        var message = g.toJson(response).getBytes(StandardCharsets.UTF_8);
 
         ObjectMapper objectMapper = new ObjectMapper();
         byte[] message;
@@ -42,8 +38,6 @@ public class MosquittoPublisherProcessorImpl implements MosquittoPublisherProces
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
     @Override

@@ -44,7 +44,7 @@ public class SaveStationSettingsTest {
         ObjectMapper objectMapper = new ObjectMapper();
         var savedStation = stationsRepository.save(StationStub.stationsEntityStub());
 
-        mvc.perform(post(String.format("/api/station/settings/%d/save",savedStation.getId()+1))
+        mvc.perform(post(String.format("/api/station/%d/settings/save",savedStation.getId()+1))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new StationSettingsResponse())))
                         .andExpect(status().isNotFound());
