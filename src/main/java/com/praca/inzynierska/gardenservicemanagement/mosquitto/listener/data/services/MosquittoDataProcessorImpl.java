@@ -6,13 +6,11 @@ import com.praca.inzynierska.gardenservicemanagement.common.model.WarningAndErro
 import com.praca.inzynierska.gardenservicemanagement.datastore.measurements.MeasurementType;
 import com.praca.inzynierska.gardenservicemanagement.datastore.measurements.MeasurementsEntity;
 import com.praca.inzynierska.gardenservicemanagement.datastore.measurements.MeasurementsRepository;
-import com.praca.inzynierska.gardenservicemanagement.datastore.sensorHasWarnings.SensorHasWarningsEntity;
 import com.praca.inzynierska.gardenservicemanagement.datastore.sensorHasWarningsOccurres.SensorHasWarningsOccurrenceEntity;
 import com.praca.inzynierska.gardenservicemanagement.datastore.sensorHasWarningsOccurres.SensorWarningsOccurrencesId;
 import com.praca.inzynierska.gardenservicemanagement.datastore.sensors.SensorType;
 import com.praca.inzynierska.gardenservicemanagement.datastore.sensors.model.Sensor;
 import com.praca.inzynierska.gardenservicemanagement.datastore.stations.StationsRepository;
-import com.praca.inzynierska.gardenservicemanagement.datastore.warnings.model.Warning;
 import com.praca.inzynierska.gardenservicemanagement.datastore.warningsOccurrences.WarningsOccurrencesEntity;
 import com.praca.inzynierska.gardenservicemanagement.mosquitto.listener.data.model.*;
 import com.praca.inzynierska.gardenservicemanagement.webFront.provider.SensorHasWarningProvider;
@@ -170,55 +168,42 @@ public class MosquittoDataProcessorImpl implements MosquittoDataProcessor {
         }
 
 
-        if(value < 1000) {
-                    if(sensor.isActive()) {
-                        sensor.setActive(false);
-                        shouldUpdate = true;
-                    }
-            log.info("Analog line: " + line + " - value < 1000 - sensor off");
-        } else if (value < 2500) {
-                    if(!sensor.isActive()) {
-                        sensor.setActive(true);
-                        shouldUpdate = true;
-                    }
-                    if(!sensor.getSensorType().equals(SensorType.SH)) {
-                        sensor.setSensorType(SensorType.SH);
-                        shouldUpdate = true;
-                    }
-                    measurementsEntity = MeasurementsEntity.builder()
-                                                           .type(MeasurementType.SOIL_HUMIDITY)
-                                                           .value(countSoilHumidityValue(value))
-                                                           .timestamp(timestamp)
-                                                           .build();
-
-        } else if (value < 3000) {
-            log.info("Analog line: " + line + " - not supported value 2500-3000");
+        if(value < 1150) {
             if(sensor.isActive()) {
                 sensor.setActive(false);
                 shouldUpdate = true;
             }
-        } else if (value < 4000) {
-                    if(!sensor.isActive()) {
-                        sensor.setActive(true);
-                        shouldUpdate = true;
-                    }
-                    if(!sensor.getSensorType().equals(SensorType.S)) {
-                        sensor.setSensorType(SensorType.S);
-                        shouldUpdate = true;
-                    }
-                    measurementsEntity = MeasurementsEntity.builder()
-                                                            .type(MeasurementType.INSOLATION)
-                                                            .value(countInsolationHumidityValue(value))
-                                                            .timestamp(timestamp)
-                                                            .build();
-        } else if (value < 4600) {
-            log.info("Analog line: " + line + " - not supported value 4000-4600");
-            if(sensor.isActive()) {
-                sensor.setActive(false);
+             log.info("Analog line: " + line + " - value < 1150 - sensor off");
+        } else if (value < 2550) {
+            if(!sensor.isActive()) {
+                sensor.setActive(true);
                 shouldUpdate = true;
             }
+            if(!sensor.getSensorType().equals(SensorType.SH)) {
+                sensor.setSensorType(SensorType.SH);
+                shouldUpdate = true;
+            }
+            measurementsEntity = MeasurementsEntity.builder()
+                                                   .type(MeasurementType.SOIL_HUMIDITY)
+                                                   .value(countSoilHumidityValue(value))
+                                                   .timestamp(timestamp)
+                                                   .build();
+        } else if (value < 4950) {
+            if(!sensor.isActive()) {
+                sensor.setActive(true);
+                shouldUpdate = true;
+            }
+            if(!sensor.getSensorType().equals(SensorType.S)) {
+                sensor.setSensorType(SensorType.S);
+                shouldUpdate = true;
+            }
+            measurementsEntity = MeasurementsEntity.builder()
+                                                    .type(MeasurementType.INSOLATION)
+                                                    .value(countInsolationValue(value))
+                                                    .timestamp(timestamp)
+                                                    .build();
         } else {
-            log.info("Analog line: " + line + " - broken - 4600+");
+            log.info("Analog line: " + line + " - broken - 4950+");
             if(sensor.isActive()) {
                 sensor.setActive(false);
                 shouldUpdate = true;
@@ -306,9 +291,8 @@ public class MosquittoDataProcessorImpl implements MosquittoDataProcessor {
         return (int)countedValue;
     }
 
-    private double countInsolationHumidityValue(Integer value) {
-        var countedValue = -100.0 / 1350.0 * value + 189;
-        //if(countedValue > 100) return 100.0;
+    private double countInsolationValue(Integer value) {
+        var countedValue = -4.348 * 0.00001 * value * 1000 - 113.0435;
         return (int)countedValue;
     }
 
